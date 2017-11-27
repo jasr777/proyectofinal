@@ -1,0 +1,41 @@
+
+body{
+	font-size : 16px;
+}
+
+
+ul{
+	list-style:  none;
+
+}
+nav img{
+	padding:23px;
+}
+
+li a {
+	display: inline-block;
+	color:#8a8e91;
+	text-decoration: none;
+	padding :23px;
+}
+
+li input{
+	margin-top:23px;
+}
+
+
+nav{
+	background-color:#1b2126;
+	min-height: 68px;
+}
+
+
+
+
+aside{
+	border-right: 1px solid #e9ecee;
+}
+.buffer{
+	margin:20px;
+}
+
