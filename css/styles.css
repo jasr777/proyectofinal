@@ -1,8 +1,13 @@
 
 body{
+    font-family:'Nunito Sans', sans-serif;
 	font-size : 16px;
 }
 
+a {
+    text-decoration: none;
+    color:#000;
+}
 
 ul{
 	list-style:  none;
@@ -19,9 +24,20 @@ li a {
 	padding :23px;
 }
 
-li input{
-	margin-top:23px;
+input[type="text"]{
+	margin-top:15px;
+    border-radius:6px;
+    background-color:#5c6269;
+    color:#000!important;
+    padding:20px;
+    height:38px;
+    /*Consultar */ 
+    background-image: url(../img/Searcch_Icon.png);
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    
 }
+
 
 
 nav{
@@ -30,12 +46,73 @@ nav{
 }
 
 
-
-
 aside{
 	border-right: 1px solid #e9ecee;
+}
+aside p{
+    font-weight:600;
 }
 .buffer{
 	margin:20px;
 }
 
+.filter img{
+    width:auto;
+}
+
+.filter a:last-child {
+    color:red;
+}
+
+.temporal{
+    margin:418px;
+}
+
+.genre-btn{
+    width:115px;
+    height :33px;
+    border : 2px solid  #eaedef;
+    color : #8e9297;;
+    border-radius: 9%;
+    margin:2px;
+
+}
+.genre-btn:hover{
+    color:#2883d8;
+    border : 2px solid  #2384d9;
+}
+
+.film{
+    position:relative;
+
+}
+.film:hover .selected{
+    position:absolute;   
+    display:block;   
+    z-index: 1;
+    height:403px;
+    width:269px;
+    background-color: rgba(27, 33, 38, 0.6);
+        
+}
+
+.selected:hover .rating-panel{
+    position:absolute;
+    text-align:center;
+    left:0px;
+    top:362px;
+    display:block;
+    color:#fff;
+    height:40px;
+    width:100%;
+    background-color:rgba(27, 33, 38, 0.82);
+}
+
+.rating-panel{   
+    display:none;  
+
+}
+.element {
+    display:inline-block;
+    margin:10px;
+}
