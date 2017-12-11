@@ -27,15 +27,16 @@ li a {
 input[type="text"]{
 	margin-top:15px;
     border-radius:6px;
-    background-color:#5c6269;
-    color:#000!important;
+   /* background-color:#5c6269;*/
+    color:#000;
     padding:20px;
     height:38px;
     /*Consultar */ 
+    /*
     background-image: url(../img/Searcch_Icon.png);
     background-repeat: no-repeat;
     background-position: 10px 10px;
-    
+    */
 }
 
 
