@@ -19,11 +19,12 @@
         activate();
         ////////////////
         function activate() {
+            TheMovieDB.getConfig();
         	getDiscoveryFilms();
         }
 
         function getDiscoveryFilms(){
-        	TheMovieDB.getPopularMovies
+        	TheMovieDB.getPopularMovies()
         	.then(setDiscoveryFilms)
         	.catch(commFailure);
 
@@ -31,9 +32,15 @@
 
         function setDiscoveryFilms(films){
         	console.log("Films received in HomeController");
-        	$scope.films = films;
+            console.log($scope.films);
+            $scope.films = TheMovieDB.parseMovies(films);
 
         }
+
+
+
+
+
 
 
         function commFailure(){
