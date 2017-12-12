@@ -1,3 +1,4 @@
+/* -- Home -- */
 
 body{
     font-family:'Nunito Sans', sans-serif;
@@ -24,21 +25,29 @@ li a {
 	padding :23px;
 }
 
+li a:hover{
+    text-decoration: none;
+    color:#8a8e91;
+
+}
+
 input[type="text"]{
 	margin-top:15px;
     border-radius:6px;
-   /* background-color:#5c6269;*/
-    color:#000;
-    padding:20px;
+    background-color:#5c6269;
+    color:#1b2126;
     height:38px;
     /*Consultar */ 
-    /*
     background-image: url(../img/Searcch_Icon.png);
     background-repeat: no-repeat;
-    background-position: 10px 10px;
-    */
+    background-position: 8px 8px;
+    padding-left :40px;
+    border : none;
 }
 
+::placeholder{
+    color:#1b2126;
+}
 
 
 nav{
@@ -74,8 +83,9 @@ aside p{
     height :33px;
     border : 2px solid  #eaedef;
     color : #8e9297;;
-    border-radius: 9%;
+    border-radius: 9px  ;
     margin:2px;
+    background-color:#fff;
 
 }
 .genre-btn:hover{
@@ -85,6 +95,7 @@ aside p{
 
 .film{
     position:relative;
+    margin-bottom:27px;
 
 }
 .film:hover .selected{
@@ -94,6 +105,8 @@ aside p{
     height:403px;
     width:269px;
     background-color: rgba(27, 33, 38, 0.6);
+        cursor :pointer;
+
         
 }
 
@@ -117,3 +130,50 @@ aside p{
     display:inline-block;
     margin:10px;
 }
+
+/* -- Modal -- */
+.modal-wrapper{
+    margin :0 30px;
+}
+
+
+.modal{
+    display:none;
+    position :fixed;
+    z-index : 1;
+    left : 15%;
+    width:100%;
+    height:100%;
+    overflow : auto;
+    background-color:#fff;
+}
+
+.modal h2 {
+    margin-bottom : 10px;
+}
+
+.modal h3 {
+    font-size : 19px;
+    color:#a5a8ac;
+    font-weight:300;
+    margin-bottom:10px;
+
+}
+
+.genre-tag{
+    display:inline-block;
+    background-color : #e9ecee;
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:30px;
+}
+
+
+.bold-grey {
+    font-weight: 700;
+    color:#8e9297;
+
+}
+
+
+

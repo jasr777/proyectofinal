@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="PeliculasEOI">
 
 <head>
     <meta charset="UTF-8">
@@ -7,195 +7,46 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600"     rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700"     rel="stylesheet">
 
 </head>
 
 <body>
-    <nav>
-        <div class="container">
-            <div class="row">
+  
 
-                <img src="img/logo.svg" alt="logo aqui" class="col-md-2">
-                <ul>
-                    <li><a href="" class="col-md-1">Categorias</a></li>
-                    <li><a href="" class="col-md-2">Mejor Valoradas</a ></li>
-							<li><a href="" class="col-md-2"> Populares ahora</a ></li>
-							<li><a href="" class="col-md-2"> Proximamente</a></li>
-                    <li><input type="text" class="col-md-3 " placeholder="Buscar..."></li>
-                </ul>
 
-            </div>
-        </div>
-    </nav>
-
-    <div class="buffer"></div>
-
-    <div class="container">
-        <aside class="col-md-3">
-            <div class="row filter">
-                <img src="img/filter.png" alt="filter-img" class="col-md-4 filter-img">
-                <a href="" class="col-md-4">Filtrar</a>
-                <a href="" class="col-md-4">Borrar</a>
-            </div>
-
-            <div class="temporal"></div>
-            <div>
-                <p>Géneros</p>
-
-                <div>
-                    <button class="genre-btn">Acción</button>
-                    <button class="genre-btn">Aventura</button>
-                    <button class="genre-btn">Animación</button>
-                    <button class="genre-btn">Comedia</button>
-                    <button class="genre-btn">Crimen</button>
-                    <button class="genre-btn">Documental</button>
-                    <button class="genre-btn">Drama</button>
-                    <button class="genre-btn">Familiar</button>
-                    <button class="genre-btn">Fantasía</button>
-                    <button class="genre-btn">Históricas</button>
-                    <button class="genre-btn">Horror</button>
-                    <button class="genre-btn">Música</button>
-                    <button class="genre-btn">Misterio</button>
-                    <button class="genre-btn">Romance</button>
-                    <button class="genre-btn">Ficción</button>
-                    <button class="genre-btn">TV Movies</button>
-                    <button class="genre-btn">Thriller</button>
-                    <button class="genre-btn">Guerra</button>
-                    <button class="genre-btn">Western</button>
-                </div>
-
-            </div>
-        </aside>
-
-        <main class="col-md-9">
-
-            <div class="container">
-                <div class="row">
-
-                    <a href="" class="col-md-3">123,456 peliculas encontradas</a>
-                    <a href="" class="col-md-1 col-md-offset-5">Ordenar<span class="caret"></span></a>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-
-            </div>
-            <div class="buffer"></div>
-            <div class="row">
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-                <div class="film col-md-4">
-                    <div class="selected">
-                        <div class="rating-panel">
-                            <div class="element">
-                                <img src="img/Favorite.png" alt=""> 77%
-                            </div>
-                            <div class="element">
-                                <img src="img/rottentomatoes.png" alt="">77%
-                            </div>
-                            <div class="element">
-                                <img src="img/popcorn.png" alt=""> 77%
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="img/imgpelicula.jpg" alt="img1">
-                </div>
-            </div>
-        </main>
-
-    </div>
+<div ng-view></div>
 
 
 
+    <!-- jQuery -->
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
 
+    <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
+
+    <!-- Angular --> 
+
+    <script src="libs/angular.js"></script>
+    <script src="libs/angular-route.js"></script>
+
+    <!-- Module -->
+
+    <script src="js/app.config.js"></script>
+
+    <!-- Factories --> 
+
+    <script src="js/factories/TheMovieDB.factory.js"></script>
+    <script src="js/factories/OMDB.factory.js"></script>
+    <script src="js/factories/OpenSubtitles.factory.js"></script>
+
+    <!-- Controllers -->
+
+    <script src="js/controllers/HomeController.js"></script>
+
 </body>
 
 </html>
