@@ -1,13 +1,13 @@
 (function() {
     'use strict';
     angular
-        .module('PeliculasEOI')
+        .module('TheMovieDB')
         .factory('TheMovieDB', TheMovieDB);
     TheMovieDB.$inject = ['$http'];
     /* @ngInject */
     function TheMovieDB($http) {
 
-        // Factory variables
+    	        // Factory variables
 
         var configurationMovieDbUrl = "https://api.themoviedb.org/3/configuration?api_key=70c6c34847ca16cd1a4326639172acd2";
         var movieMovieDbUrl ="https://api.themoviedb.org/3/movie/?&api_key=70c6c34847ca16cd1a4326639172acd2";
@@ -22,6 +22,7 @@
         var currentDate = new Date().toISOString().substring(0,10);
         var totalCount = 0;
 
+
         var service = {
             getPopularMovies : getPopularMovies,
             getConfig : getConfig,
@@ -35,9 +36,6 @@
         ////////////////
 
 
-
-        /* Config returns 'configuration' object needed for setting images */
-
         function getConfig(){
           console.log("Initiating config setup...")
           return $http.get(configurationMovieDbUrl)
@@ -46,15 +44,12 @@
                     console.log("Error en getConfig() en TMDBFactory");
                   });
         }
-        
 
         function setConfig(response){
           console.log("Configuration object received in TheMovieDB factory");
           config = response.data.images;
           console.log(config);
-
         }
-
 
        	function getPopularMovies(){
        		return $http.get(discoverMovieDBUrl+popular)
@@ -63,7 +58,6 @@
                   console.log("Error en getPopularMovies() en TMDBFactory");
                 });
        	}
-
 
         function getUnreleasedMovies(){
           
@@ -74,7 +68,6 @@
                   });
                  
         }
-
         function searchMovies(query){
           return $http.get(searchMovieDbUrl+queryStr+query)
                   .then(setMovies)
@@ -96,8 +89,6 @@
           }
         }
 
-        
-
         function getByPagePopular(page){
           console.log("getting popular films in page "+page);
           return $http.get(discoverMovieDBUrl + popular + pageStr + page)
@@ -117,16 +108,12 @@
                 });
                 
         }
-
-
-
        	function setMovies(response){
        		console.log("received response in themoviedb factory");
        		console.log(response);
           totalCount = response.
           return response;
        	}
-
         function parseMovies(movies){
           // El parse toca hacerlo en el home controller
           let parsedMovies = [];
@@ -140,10 +127,11 @@
             }
           return parsedMovies;
         }
+        
 
 
 
 
-        }
-
+       
+    }
 })();

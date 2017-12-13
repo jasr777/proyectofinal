@@ -27,8 +27,12 @@ li a {
 
 li a:hover{
     text-decoration: none;
-    color:#8a8e91;
+    /* TODO: mirar el color correcto */
+    color : #58595b;
+}
 
+a[ng-click]{
+    cursor:pointer;
 }
 
 input[type="text"]{
@@ -58,6 +62,7 @@ nav{
 
 aside{
 	border-right: 1px solid #e9ecee;
+    position:fixed;
 }
 aside p{
     font-weight:600;
@@ -92,7 +97,10 @@ aside p{
     color:#2883d8;
     border : 2px solid  #2384d9;
 }
-
+.film-poster{
+    height:403px;
+    width:269px;
+}
 .film{
     position:relative;
     margin-bottom:27px;
@@ -121,6 +129,18 @@ aside p{
     width:100%;
     background-color:rgba(27, 33, 38, 0.82);
 }
+.title {
+    display:none;
+}
+
+.selected:hover .title {
+    display:inline-block;
+    position:absolute;
+    text-align:center;
+    text-transform: uppercase;
+    top:150px;
+    color:#fff;
+}
 
 .rating-panel{   
     display:none;  
@@ -131,6 +151,9 @@ aside p{
     margin:10px;
 }
 
+.element p{
+    display: inline-block;
+}
 /* -- Modal -- */
 .modal-wrapper{
     margin :0 30px;
