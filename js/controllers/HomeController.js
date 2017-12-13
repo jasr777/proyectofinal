@@ -11,6 +11,7 @@
 
     	$scope.films = [];
        $scope.pageNumber = 1;
+       $scope.query ="";
 
         // Control de la página en la que se encuentra la web
         
@@ -31,6 +32,7 @@
         $scope.getUnreleasedFilms = getUnreleasedFilms;
         $scope.getNextUnreleasedFilmPage = getNextUnreleasedFilmPage;
         $scope.getNextFilmPage = getNextFilmPage;
+        $scope.searchFilms = searchFilms;
 
 
         activate();
@@ -82,6 +84,10 @@
         }
 
         function searchFilms (query){
+            $scope.currentPage = 4;
+            $scope.query=query;
+            console.log("Searching " + query);
+            console.log($scope.currentPage);
             TheMovieDB.searchMovies(query)
             .then(setMovieResults)
             .catch( () => {
@@ -90,7 +96,7 @@
         }
 
         function setMovieResults(films){
-            $scope.currentPage =2;
+            $scope.currentPage =4;
             $scope.totalCount = films.data.total_results;
             let filmsReceived = films.data.results.splice(0);
             $scope.films = TheMovieDB.parseMovies(filmsReceived);
@@ -99,11 +105,21 @@
         function getNextFilmPage(){
             console.log($scope.currentPage);
             $scope.pageNumber++;
-            TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage)
-                      .then(addNextPage)
-                      .catch( () => {
+            if($scope.currentPage < 4 ){
+                console.log("not in search");
+                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,"")
+                          .then(addNextPage)
+                          .catch( () => {
+                            console.log("Error en getNextFilmPage() en HomeController");
+                          });
+            } else {
+                console.log("in search");
+                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,$scope.query)
+                    .then(addNextPage)
+                    .catch( () => {
                         console.log("Error en getNextFilmPage() en HomeController");
-                      });
+                    });
+            }
         }
 
 

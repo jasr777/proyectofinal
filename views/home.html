@@ -8,7 +8,7 @@
                     <li><a ng-click="getUnreleasedFilms()" class="col-md-2">Proximamente</a ></li>
 					<li><a class="col-md-1"> Favoritas</a ></li>
 					<li><a class="col-md-2"> Para mas Tarde...</a></li>
-                    <li><input type="text" class="col-md-3" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="serchMovies(searchQuery)" placeholder="Buscar..."></li>
+                    <li><input type="text" class="col-md-3" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
                 </ul>
 
             </div>
@@ -84,12 +84,21 @@
                     </div>
 
                     <!-- Fin Pelicula -->
-                    <div class="row">
+                    <div ng-if="query == ''" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="getNextFilmPage()">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
+
+                    <div ng-if="query != ''" class="row">
+                        <div class="col-md-12" >
+                            <a class="col-md-offset-6" ng-click="getNextFilmPage(query)">Cargar más...</a>
+                            <div class="buffer"></div>
+                        </div>
+                    </div>
+
+
 
         </main>
     </div>
