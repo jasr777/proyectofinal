@@ -24,6 +24,7 @@
         var totalCount = 0;
         var movie = {};
 
+
         var service = {
             getPopularMovies : getPopularMovies,
             getConfig : getConfig,
@@ -33,7 +34,9 @@
             getNextPage : getNextPage,
             searchMovies : searchMovies,
             getMovie : getMovie,
-            parseMovie : parseMovie
+            parseMovie : parseMovie,
+            getSimilarMovies : getSimilarMovies,
+            parseSimilars : parseSimilars
 
         };
         return service;
@@ -42,7 +45,6 @@
         /* Config returns 'configuration' object needed for setting images */
 
         function getConfig() {
-          console.log("Initiating config setup...");
           return $http.get(configurationMovieDbUrl)
                   .then(setConfig)
                   .catch(() => {
@@ -84,6 +86,36 @@
           console.log("received response in TMDBFactory");
           //totalCount = films.data.total_results;
           return response;
+        }
+
+        // url : movieurl/ + id + /similar + ?apikey...
+        function getSimilarMovies(id){
+          console.log("fetching movies similar to movie id " +id);
+          return $http.get(movieMovieDbUrl+id+"/similar"+api_key+"&limit=4")
+                  .then(setMovie)
+                  .catch( () => {
+                    console.log("Error en getSimilarMovies(id) en TMDBFactory");
+                  });
+
+        }
+
+
+        function parseSimilars(similars){
+          console.log("parse similars");
+          console.log(similars);
+          let parsedSimilars = [];       
+          for (var i = 0; i < similars.length; i++){
+            console.log("en el for");
+            let thumbnail = Object.assign({},similars[i]);
+
+            thumbnail.url  = config.base_url + config.logo_sizes[2] +similars[i].poster_path;
+            parsedSimilars.push(thumbnail);
+            thumbnail = {};
+          }
+          console.log("similars parsed : ");
+          console.log(parsedSimilars);
+          return parsedSimilars;
+
         }
 
         function parseMovies(movies){
@@ -162,21 +194,17 @@
         /* Auxiliary Functions */
 
         function parseMovie (movie){
-          console.log("Parsing movie: ");
-          console.log(movie);
+         
           let parsedMovie = Object.assign({},movie);          
-          console.log(parsedMovie);
           let parsedGenres = [];
 
 
           parsedMovie.year = new Date(movie.release_date).getFullYear();
           parsedMovie.full_poster = config.base_url + config.poster_sizes[4] + movie.poster_path;
-          console.log(movie.genres);
           for (var i = 0; i < movie.genres.length;i++){
 
             parsedGenres.push (movie.genres[i].name);
           }
-          console.log(parsedGenres);
           parsedMovie.duration = formatMinutes(movie.runtime);
 
           return parsedMovie;

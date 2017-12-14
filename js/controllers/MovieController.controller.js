@@ -16,6 +16,7 @@
         	console.log("Movie controller ID received " + id);
         	TheMovieDB.getConfig();
         	getMovie(id);
+            console.log("MOVIE WITH ID :" + id);
 
 
         
@@ -27,16 +28,15 @@
         function setMovie(response){
         	console.log(response);
         	$scope.movie = TheMovieDB.parseMovie(response);
-        	console.log("Set movie en MC va a coger los ratings")
+        	
         	getRatings($scope.movie.imdb_id);
+            getSimilars(id);
 
         	console.log("movie received in moviecontroller");
         	console.log($scope.movie);
         }
 
         function getRatings(imdbid){
-        	console.log("get ratings en MC");
-        	console.log(imdbid);
         	OMDB.getMovieRating($scope.movie.imdb_id)
         		.then(setRatings)
         		.catch("Ha habido un error en getRatings en MovieController");
@@ -47,21 +47,33 @@
         	
         	$scope.movie.ratings = formatRatings(ratings);
 
-        	console.log($scope.movie.ratings);
-        	//$scope.movie.ratings = response.data.Ratings;
+        }
+
+        function getSimilars(id){
+            TheMovieDB.getSimilarMovies(id)
+                       .then(setSimilar)
+                       .catch( () => {
+                        console.log("Ha habido un error en getSimilars(id) en MovieController");
+                       })
+
+        }
+
+        function setSimilar(response){
+            console.log("Similar movies received in moviecontroller");
+            console.log(response);
+            console.log("invoke parseSimilars");
+            $scope.movie.similars = TheMovieDB.parseSimilars( response.results);
+            console.log("$scope.movie status :");
+            console.log($scope.movie);
+
         }
 
         function formatRatings(ratings){
-        	console.log("parseratings");
-        	console.log(ratings);
         	let parsedRatings = ratings;
-        	console.log("parsedRatings ");
-        	console.log(parsedRatings);
 
         	parsedRatings[0] = parsedRatings[0].Value.replace("/10","");
         	parsedRatings[1] = parsedRatings[1].Value;
         	parsedRatings[2] = parsedRatings[2].Value.replace("/100","");        	
-        	console.log(parsedRatings);
         	return parsedRatings;
 
         }

@@ -27,13 +27,13 @@
                 </div>
                 <div class="row">
                     <p>{{movie.overview}}</p>
-                </div>
+     live           </div>
                 
                 <div class="row">
                     <h2>Trailer</h2>                    
                 </div>
                 <div class="row">
-                    <img src="img/trailer.png" alt="">
+                    <iframe src="https://www.youtube.com/embed/FnCdOQsX5kc" width=703 height=342></iframe>
                 </div>
             </div>
         </div>
@@ -42,23 +42,13 @@
         <hr>
         
             <p>Películas similares</p>
-        </div>       
-            <div class="col-md-3">
-                <img src="img/similares.png" alt="">
-                <p class="text-center">Inception</p>
-            </div>
-            <div class="col-md-3">
-                <img src="img/similares.png" alt="">
-                <p class="text-center">Inception</p>
-            </div>
-            <div class="col-md-3">
-                <img src="img/similares.png" alt="">
-                <p class="text-center">Inception</p>
-            </div>                        
-            <div class="col-md-3">
-                <img src="img/similares.png" alt="">
-                <p class="text-center">Inception</p>s
-            </div>            
+        </div> 
+            <div class="similars row">
+                <div class="col-md-2" ng-repeat="similar in movie.similars">
+                    <img class="center-block" ng-src="{{similar.url}}" >
+                    <p class="text-center">{{similar.title}}</p>
+                </div>
+            </div>   
         </div>
         
         

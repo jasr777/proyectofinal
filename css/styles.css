@@ -182,6 +182,9 @@ aside p{
     margin-bottom:10px;
 
 }
+.similars {
+    overflow-x: scroll;
+}
 
 .genre-tag{
     display:inline-block;
