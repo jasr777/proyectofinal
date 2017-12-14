@@ -64,14 +64,13 @@
                     </div>
                         <!-- Pelicula -->
 
-
+                   
                     <div class="film col-md-4" ng-repeat="film in films">
                             <div class="selected">
-                               <p class="title col-md-12"> {{film.title}}</p>
+                               <a href="#!/movie/{{film.id}}"> <p class="title col-md-12"> {{film.title}}</p></a>
                                 <div class="rating-panel">
                                     <div class="element">
                                         <img  src="img/Favorite.png" alt="">
-
                                         <p ng-if= "film.vote_average != '0'">{{film.vote_average}}</p> 
                                         <p ng-if="film.vote_average == '0'">No disponible</p>
 

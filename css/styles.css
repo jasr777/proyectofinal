@@ -155,13 +155,13 @@ aside p{
     display: inline-block;
 }
 /* -- Modal -- */
-.modal-wrapper{
+
+.film-data-wrapper{
     margin :0 30px;
 }
 
 
-.modal{
-    display:none;
+.film-data{
     position :fixed;
     z-index : 1;
     left : 15%;
@@ -171,11 +171,11 @@ aside p{
     background-color:#fff;
 }
 
-.modal h2 {
+.film-data h2 {
     margin-bottom : 10px;
 }
 
-.modal h3 {
+.film-data h3 {
     font-size : 19px;
     color:#a5a8ac;
     font-weight:300;
@@ -197,6 +197,5 @@ aside p{
     color:#8e9297;
 
 }
-
 
 

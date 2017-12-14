@@ -10,7 +10,9 @@
 
         /* Factory Variables  ------------*/
         var configurationMovieDbUrl = "https://api.themoviedb.org/3/configuration?api_key=70c6c34847ca16cd1a4326639172acd2";
-        var movieMovieDbUrl ="https://api.themoviedb.org/3/movie/?&api_key=70c6c34847ca16cd1a4326639172acd2";
+        
+        var api_key = "?&api_key=70c6c34847ca16cd1a4326639172acd2";
+        var movieMovieDbUrl ="https://api.themoviedb.org/3/movie/";
         var discoverMovieDBUrl="https://api.themoviedb.org/3/discover/movie?&api_key=70c6c34847ca16cd1a4326639172acd2";
         var searchMovieDBUrl = "https://api.themoviedb.org/3/search/movie?api_key=70c6c34847ca16cd1a4326639172acd2&query=";
         var popular = "&sort_by=popularity.desc";
@@ -20,7 +22,7 @@
         var config = {};
         var currentDate = new Date().toISOString().substring(0,10);
         var totalCount = 0;
-
+        var movie = {};
 
         var service = {
             getPopularMovies : getPopularMovies,
@@ -29,7 +31,10 @@
             getByPagePopular : getByPagePopular,
             getUnreleasedMovies : getUnreleasedMovies,
             getNextPage : getNextPage,
-            searchMovies : searchMovies
+            searchMovies : searchMovies,
+            getMovie : getMovie,
+            parseMovie : parseMovie
+
         };
         return service;
         ////////////////
@@ -52,6 +57,19 @@
           console.log(config);
         }
 
+        function getMovie(id){
+            return $http.get(movieMovieDbUrl +id +"?"+api_key)
+                  .then(setMovie)
+                  .catch( () => {
+                    console.log("Ha habido un error en getMovie(id) en TMDBFactory");
+                  })
+
+        }
+
+        function setMovie(response){
+          return response.data;
+
+        }
 
         function getPopularMovies(){
           return $http.get(discoverMovieDBUrl+popular)
@@ -99,6 +117,8 @@
                     console.log("Error en searchMovies() en TMDBFactory");
                   });
         }
+
+        /*TODO: esto no va a aqui, tiene que ir en homecontroller*/
         function getNextPage (pageNumber, currentPage,query){
           switch (currentPage){
             case 0  : return getByPagePopular(pageNumber);
@@ -139,7 +159,37 @@
                   });
         }
      
-                
+        /* Auxiliary Functions */
+
+        function parseMovie (movie){
+          console.log("Parsing movie: ");
+          console.log(movie);
+          let parsedMovie = Object.assign({},movie);          
+          console.log(parsedMovie);
+          let parsedGenres = [];
+
+
+          parsedMovie.year = new Date(movie.release_date).getFullYear();
+          parsedMovie.full_poster = config.base_url + config.poster_sizes[4] + movie.poster_path;
+          console.log(movie.genres);
+          for (var i = 0; i < movie.genres.length;i++){
+
+            parsedGenres.push (movie.genres[i].name);
+          }
+          console.log(parsedGenres);
+          parsedMovie.duration = formatMinutes(movie.runtime);
+
+          return parsedMovie;
+        }
+
+        function formatMinutes (minutes){
+          let time = new Date(null);
+          time.setMinutes(minutes);
+          let duration = time.toISOString().substring(12,16);
+          return duration.replace(":", "h ") +"m";
+
+
+        }
 
     }
 })();

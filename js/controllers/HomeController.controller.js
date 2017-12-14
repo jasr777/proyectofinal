@@ -24,6 +24,9 @@
         $scope.currentPage = 0; // Por defecto en discover
         $scope.totalCount = 0;
 
+
+        
+
     	/***************************************************/
 
     	/* Scope functions */

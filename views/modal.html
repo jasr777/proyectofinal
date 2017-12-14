@@ -1,36 +1,32 @@
 
-
-
-    <div class="modal">
-        
+<div class="film-data">     
 
     <!-- Actualizar convenientemente en función de angular-->
-    <div class="modal-wrapper">
+    <div class="film-data-wrapper">
         <div class="row">
-            <h2 class="col-md-2">Interstellar</h1>
-            <h3 class="col-md-2"> 2014</h2>
+            <h2 class="col-md-2">{{movie.title}}</h1>
+            <h3 class="col-md-2"> {{movie.year}}</h2>
             <img class="col-md-offset-5" src="img/Close.png" alt="">
             <hr>
         </div>
         
         <div class="row">
-            <img src="img/Cover.png" alt="" class="col-md-5">
+            <img ng-src="{{movie.full_poster}}" alt="" class="col-md-5">
             <div class="col-md-6">
                     <h2 class="col-md-1">Sinopsis</h2>
-                    <h2 class="col-md-offset-7">2h 15m</h3>
+                    <h2 class="col-md-offset-7">{{movie.duration}}</h3>
                 <div class="row">
                     <div class="col-md-4">
-                       <div class="genre-tag">Aventura</div>
-                       <div class="genre-tag">Sci-Fi</div>                        
+                       <div class="genre-tag" ng-repeat="genre in movie.genres">{{genre.name}}</div>
                     </div>
                     <div class="col-md-offset-8">
-                        <img src="img/Favorite.png" alt=""> 8.4
-                        <img src="img/rottentomatoes.png" alt="">77%
-                        <img src="img/popcorn.png" alt="">77%
+                        <img src="img/Favorite.png" alt=""> {{movie.ratings[0]}}
+                        <img src="img/rottentomatoes.png" alt="">{{movie.ratings[1]}}
+                        <img src="img/popcorn.png" alt="">{{movie.ratings[2]}} %
                     </div>
                 </div>
                 <div class="row">
-                    <p>With our time on Earth coming to an end, a team of explorers undertakes the most important mission in human history; traveling beyond this galaxy to discover whether mankind has a future among the stars. (C) Paramount</p>
+                    <p>{{movie.overview}}</p>
                 </div>
                 
                 <div class="row">
