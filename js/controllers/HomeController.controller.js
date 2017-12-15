@@ -23,7 +23,41 @@
         */
         $scope.currentPage = 0; // Por defecto en discover
         $scope.totalCount = 0;
+        $scope.yearSlider  = {
+            min : 1970,
+            max : Date = new Date().getFullYear(),
+            options : {
+                floor :1970,
+                ceil:2018
+            }
+        }
+        $scope.imdbSlider = {
+            min : 0,
+            max : 5,
+            options : {
+                floor: 0,
+                ceil : 5
+            }
+        }
 
+
+
+        $scope.rottenCsSlider = {
+            min : 0,
+            max : 50,
+            options : {
+                floor:0,
+                ceil : 50
+            }
+        };
+        $scope.rottenAsSlider ={
+            min : 0, 
+            max : 50,
+            options : {
+                floor :0,
+                ceil : 50
+            }
+        }
 
         
 

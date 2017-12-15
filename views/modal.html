@@ -11,29 +11,31 @@
         </div>
         
         <div class="row">
-            <img ng-src="{{movie.full_poster}}" alt="" class="col-md-5">
+            <img ng-src="{{movie.full_poster}}" ng-if="movie.poster_path != null" alt="" class="col-md-5">
+            <img  ng-if ="movie.poster_path == null"src="img/generic-film.jpg" alt="" class="col-md-5">
+
             <div class="col-md-6">
                     <h2 class="col-md-1">Sinopsis</h2>
-                    <h2 class="col-md-offset-7">{{movie.duration}}</h3>
+                    <h2 class="col-md-offset-7" ng-if="movie.duration == 0h 00m">{{movie.duration}}</h3>
                 <div class="row">
                     <div class="col-md-4">
                        <div class="genre-tag" ng-repeat="genre in movie.genres">{{genre.name}}</div>
                     </div>
-                    <div class="col-md-offset-8">
+                    <div class="col-md-offset-8" ng-if="movie.ratings.length > 0">
                         <img src="img/Favorite.png" alt=""> {{movie.ratings[0]}}
                         <img src="img/rottentomatoes.png" alt="">{{movie.ratings[1]}}
                         <img src="img/popcorn.png" alt="">{{movie.ratings[2]}} %
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-if="movie.overview.length > 0">
                     <p>{{movie.overview}}</p>
      live           </div>
                 
-                <div class="row">
-                    <h2>Trailer</h2>                    
-                </div>
-                <div class="row">
-                    <iframe src="https://www.youtube.com/embed/FnCdOQsX5kc" width=703 height=342></iframe>
+              
+                <div class="row" ng-if="movie.trailer.length > 0">
+                     <h2>Trailer</h2>  
+                    <iframe ng-src="{{movie.trailer}}"  width=703 height=342></iframe>
+                    
                 </div>
             </div>
         </div>
@@ -41,11 +43,13 @@
             <p> <span class="bold-grey">Subs :</span> en es de </p>
         <hr>
         
-            <p>Películas similares</p>
+           
         </div> 
-            <div class="similars row">
-                <div class="col-md-2" ng-repeat="similar in movie.similars">
-                    <img class="center-block" ng-src="{{similar.url}}" >
+
+            <div class="similars row" ng-if="movie.similars.length > 0 ">
+                 <p>Películas similares</p>
+                <div class="col-md-2" ng-repeat="similar in movie.similars |limitTo:4">
+                     <a href="#!/movie/{{similar.id}}"><img class="center-block" ng-src="{{similar.url}}" > </a>
                     <p class="text-center">{{similar.title}}</p>
                 </div>
             </div>   

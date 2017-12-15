@@ -3,9 +3,9 @@
     angular
         .module('PeliculasEOI')
         .controller('MovieController', MovieController);
-    MovieController.$inject = ['$scope','$routeParams','TheMovieDB','OMDB'];
+    MovieController.$inject = ['$scope','$routeParams','TheMovieDB','OMDB','$sce'];
     /* @ngInject */
-    function MovieController($scope,$routeParams,TheMovieDB,OMDB) {
+    function MovieController($scope,$routeParams,TheMovieDB,OMDB, $sce) {
 
 
     	var id = $routeParams.id;
@@ -17,9 +17,7 @@
         	TheMovieDB.getConfig();
         	getMovie(id);
             console.log("MOVIE WITH ID :" + id);
-
-
-        
+       
         }
 
         function getMovie(id){
@@ -31,7 +29,7 @@
         	
         	getRatings($scope.movie.imdb_id);
             getSimilars(id);
-
+            getTrailers(id);
         	console.log("movie received in moviecontroller");
         	console.log($scope.movie);
         }
@@ -59,12 +57,32 @@
         }
 
         function setSimilar(response){
-            console.log("Similar movies received in moviecontroller");
-            console.log(response);
-            console.log("invoke parseSimilars");
             $scope.movie.similars = TheMovieDB.parseSimilars( response.results);
-            console.log("$scope.movie status :");
-            console.log($scope.movie);
+
+        }
+
+
+        function getTrailers(id){
+            console.log("Getting trailers for id " + id);
+            TheMovieDB.getVideos(id)
+                      .then(setTrailers)
+                      .catch( () => {
+                        console.log("Error en getTrailers() en MovieController");
+                      });
+
+        }
+
+
+
+        function setTrailers(response){
+            console.log("Trailers received in MovieController");
+
+            console.log(response.data.results);   
+           // let trailers = TheMovieDB.parseTrailers(response.data.results);
+            $scope.movie.trailer = $sce.trustAsResourceUrl(TheMovieDB.parseTrailers(response.data.results));
+            console.log("Trailers after parsing : ");
+            console.log($scope.movie.trailer);
+            //$scope.movie.trailers = TheMovieDB.parseTrailers()
 
         }
 

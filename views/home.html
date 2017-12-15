@@ -25,8 +25,55 @@
                     <a href="" class="col-md-4">Filtrar</a>
                     <a href="" class="col-md-4">Borrar</a>
                 </div>
+                
+                <div>
+                <div class="buffer"></div>    
+                    <div class="buffer"></div>
+                    <div>    
+                        <p>Año</p>
+                        <rzslider 
+                                rz-slider-model="yearSlider.min"
+                                rz-slider-high="yearSlider.max"
+                                rz-slider-options="yearSlider.options">
+                        </rzslider>
+                        <div class="buffer"></div>
+                    </div>
+                    <div class="buffer"></div>
 
-                <div class="temporal"></div>
+                    <div>    
+                        <p> Valoración IMDB</p>
+                        <rzslider class="custom-slider"
+                                rz-slider-model="imdbSlider.min"
+                                rz-slider-high = "imdbSlider.max"
+                                rz-slider-options="imdbSlider.options">
+                                
+                         </rzslider>
+                    </div>
+                    <div class="buffer"></div>
+
+                    <div>    
+                        <p>Rotten Tomatoes - CS </p>
+                        <rzslider 
+                                    rz-slider-model="rottenCsSlider.min"
+                                    rz-slider-high ="rottenCsSlider.max"
+                                    rz-slider-options="rottenCsSlider.options">
+                                
+                        </rzslider>
+                    </div>
+                    <div class="buffer"></div>
+
+                    <div>    
+                        <p>Rotten Tomatoes - AS</p>
+                        <rzslider 
+                                    rz-slider-model="rottenAsSlider.min"
+                                    rz-slider-high="rottenAsSlider.max"
+                                    rz-slider-options="rottenAsSlider.options">
+                                        
+                        </rzslider>
+                    </div>
+
+                </div>
+                <div class="buffer"></div>
                 <div>
                     <p>Géneros</p>
 
@@ -96,6 +143,8 @@
                             <div class="buffer"></div>
                         </div>
                     </div>
+
+
 
 
 

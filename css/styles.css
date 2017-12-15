@@ -41,7 +41,6 @@ input[type="text"]{
     background-color:#5c6269;
     color:#1b2126;
     height:38px;
-    /*Consultar */ 
     background-image: url(../img/Searcch_Icon.png);
     background-repeat: no-repeat;
     background-position: 8px 8px;
@@ -67,6 +66,57 @@ aside{
 aside p{
     font-weight:600;
 }
+
+
+/*Slider styles */ 
+/*
+.custom-slider.rzslider .rz-bar {
+  background: #ffe4d1;
+  height: 2px;
+}
+.custom-slider.rzslider .rz-selection {
+  background: orange;
+}
+
+.custom-slider.rzslider .rz-pointer-min {
+  top: auto; /* to remove the default positioning */
+  /*bottom: 0;
+  background-color: green;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+
+.custom-slider.rzslider .rz-pointer-max {
+    
+}
+.custom-slider.rzslider .rz-pointer:after {
+  display: none;
+}
+
+.custom-slider.rzslider .rz-bubble {
+  bottom: 14px;
+}
+
+.custom-slider.rzslider .rz-limit {
+  font-weight: bold;
+  color: orange;
+}
+
+.custom-slider.rzslider .rz-tick {
+  width: 1px;
+  height: 10px;
+  margin-left: 4px;
+  border-radius: 0;
+  background: #ffe4d1;
+  top: -1px;
+}
+
+.custom-slider.rzslider .rz-tick.rz-selected {
+  background: orange;
+}
+*/
+//////////////////////
 .buffer{
 	margin:20px;
 }

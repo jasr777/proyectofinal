@@ -19,6 +19,7 @@
         var pageStr = "&page=";
       //  var queryStr = "&query=";
         var greaterDate ="&primary_release_date.gte=";
+        var youtubeEmbedUrl = "http://www.youtube.com/embed/";
         var config = {};
         var currentDate = new Date().toISOString().substring(0,10);
         var totalCount = 0;
@@ -36,7 +37,9 @@
             getMovie : getMovie,
             parseMovie : parseMovie,
             getSimilarMovies : getSimilarMovies,
-            parseSimilars : parseSimilars
+            parseSimilars : parseSimilars,
+            getVideos : getVideos ,
+            parseTrailers : parseTrailers
 
         };
         return service;
@@ -91,7 +94,7 @@
         // url : movieurl/ + id + /similar + ?apikey...
         function getSimilarMovies(id){
           console.log("fetching movies similar to movie id " +id);
-          return $http.get(movieMovieDbUrl+id+"/similar"+api_key+"&limit=4")
+          return $http.get(movieMovieDbUrl+id+"/similar"+api_key)
                   .then(setMovie)
                   .catch( () => {
                     console.log("Error en getSimilarMovies(id) en TMDBFactory");
@@ -100,26 +103,8 @@
         }
 
 
-        function parseSimilars(similars){
-          console.log("parse similars");
-          console.log(similars);
-          let parsedSimilars = [];       
-          for (var i = 0; i < similars.length; i++){
-            console.log("en el for");
-            let thumbnail = Object.assign({},similars[i]);
-
-            thumbnail.url  = config.base_url + config.logo_sizes[2] +similars[i].poster_path;
-            parsedSimilars.push(thumbnail);
-            thumbnail = {};
-          }
-          console.log("similars parsed : ");
-          console.log(parsedSimilars);
-          return parsedSimilars;
-
-        }
 
         function parseMovies(movies){
-          // El parse toca hacerlo en el home controller
           let parsedMovies = [];
             for(var i = 0; i < movies.length; i++){
                 let parsedMovie = {};
@@ -191,8 +176,52 @@
                   });
         }
      
-        /* Auxiliary Functions */
 
+        function getVideos(id){
+          return $http.get(movieMovieDbUrl+id+"/videos?"+api_key)
+                  .then(setMovies)
+                  .catch( () => {
+                    console.log("Error en getVideos() en TMDBFactory");
+                  })
+        }
+
+
+        function parseTrailers(trailers){
+
+          console.log("parsing trailers");
+          console.log(trailers);
+          let auxTrailers = trailers
+          console.log(auxTrailers);
+          let parsedTrailers = [];
+          for (var i = 0; i < auxTrailers.length;i++){
+            console.log("en el for parsiando");
+            console.log(auxTrailers[i].type);
+            if(auxTrailers[i].type="Trailer"){
+              console.log("encontre trailer");
+              let trailer = Object.assign({},auxTrailers[i]);
+              return youtubeEmbedUrl + auxTrailers[i].key;
+              
+            } 
+          }
+          return parsedTrailers;
+        }
+
+        function parseSimilars(similars){
+          console.log("parse similars");
+          console.log(similars);
+          let parsedSimilars = [];       
+          for (var i = 0; i < similars.length; i++){
+            let thumbnail = Object.assign({},similars[i]);
+
+            thumbnail.url  = config.base_url + config.logo_sizes[2] +similars[i].poster_path;
+            parsedSimilars.push(thumbnail);
+            thumbnail = {};
+          }
+          console.log("similars parsed : ");
+          console.log(parsedSimilars);
+          return parsedSimilars;
+
+        }
         function parseMovie (movie){
          
           let parsedMovie = Object.assign({},movie);          
@@ -201,8 +230,9 @@
 
           parsedMovie.year = new Date(movie.release_date).getFullYear();
           parsedMovie.full_poster = config.base_url + config.poster_sizes[4] + movie.poster_path;
-          for (var i = 0; i < movie.genres.length;i++){
-
+          
+            // FUTURE: investiga el .map 
+          for (var i = 0; i < movie.genres.length;i++){            
             parsedGenres.push (movie.genres[i].name);
           }
           parsedMovie.duration = formatMinutes(movie.runtime);
@@ -210,6 +240,8 @@
           return parsedMovie;
         }
 
+
+        /* Auxiliary functions */
         function formatMinutes (minutes){
           let time = new Date(null);
           time.setMinutes(minutes);
