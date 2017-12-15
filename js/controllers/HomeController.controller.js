@@ -31,33 +31,16 @@
                 ceil:2018
             }
         }
-        $scope.imdbSlider = {
+        $scope.ratingSlider = {
             min : 0,
-            max : 5,
+            max : 10,
             options : {
                 floor: 0,
-                ceil : 5
+                ceil : 10
             }
         }
 
 
-
-        $scope.rottenCsSlider = {
-            min : 0,
-            max : 50,
-            options : {
-                floor:0,
-                ceil : 50
-            }
-        };
-        $scope.rottenAsSlider ={
-            min : 0, 
-            max : 50,
-            options : {
-                floor :0,
-                ceil : 50
-            }
-        }
 
         
 
