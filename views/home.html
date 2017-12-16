@@ -22,8 +22,8 @@
             <aside class="col-md-3">
                 <div class="row filter">
                     <img src="img/filter.png" alt="filter-img" class="col-md-4 filter-img">
-                    <a href="" class="col-md-4">Filtrar</a>
-                    <a href="" class="col-md-4">Borrar</a>
+                    <a class="col-md-4">Filtrar</a>
+                    <a class="col-md-4" ng-click="resetFilter()">Borrar</a>
                 </div>
                 
                 <div>
@@ -58,25 +58,7 @@
                     <p>Géneros</p>
 
                     <div>
-                        <button class="genre-btn">Acción</button>
-                        <button class="genre-btn">Aventura</button>
-                        <button class="genre-btn">Animación</button>
-                        <button class="genre-btn">Comedia</button>
-                        <button class="genre-btn">Crimen</button>
-                        <button class="genre-btn">Documental</button>
-                        <button class="genre-btn">Drama</button>
-                        <button class="genre-btn">Familiar</button>
-                        <button class="genre-btn">Fantasía</button>
-                        <button class="genre-btn">Históricas</button>
-                        <button class="genre-btn">Horror</button>
-                        <button class="genre-btn">Música</button>
-                        <button class="genre-btn">Misterio</button>
-                        <button class="genre-btn">Romance</button>
-                        <button class="genre-btn">Ficción</button>
-                        <button class="genre-btn">TV Movies</button>
-                        <button class="genre-btn">Thriller</button>
-                        <button class="genre-btn">Guerra</button>
-                        <button class="genre-btn">Western</button>
+                        <button class="genre-btn" ng-click="getGenreById({{genre.id}})" ng-repeat="genre in genres">{{genre.name}}</button>
                     </div>
 
                 </div>

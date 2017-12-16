@@ -15,10 +15,14 @@
         var movieMovieDbUrl ="https://api.themoviedb.org/3/movie/";
         var discoverMovieDBUrl="https://api.themoviedb.org/3/discover/movie?&api_key=70c6c34847ca16cd1a4326639172acd2";
         var searchMovieDBUrl = "https://api.themoviedb.org/3/search/movie?api_key=70c6c34847ca16cd1a4326639172acd2&query=";
+        var genreMovieDBUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=70c6c34847ca16cd1a4326639172acd2&language=en-US";
+
         var popular = "&sort_by=popularity.desc";
+        var lesserThanDate = "&primary_release_date.lte=";
         var pageStr = "&page=";
-      //  var queryStr = "&query=";
-        var greaterDate ="&primary_release_date.gte=";
+        var greaterThanDate ="&primary_release_date.gte=";
+        var greaterThanVote ="&vote_average.gte=";
+        var lesserThanVote ="&vote_average.lte=";
         var youtubeEmbedUrl = "http://www.youtube.com/embed/";
         var config = {};
         var currentDate = new Date().toISOString().substring(0,10);
@@ -39,8 +43,10 @@
             getSimilarMovies : getSimilarMovies,
             parseSimilars : parseSimilars,
             getVideos : getVideos ,
-            parseTrailers : parseTrailers
-
+            parseTrailers : parseTrailers,
+            getMoviesWithinYearRange : getMoviesWithinYearRange,
+            getMoviesWithinVoteRange : getMoviesWithinVoteRange,
+            getGenreList : getGenreList
         };
         return service;
         ////////////////
@@ -62,6 +68,17 @@
           console.log(config);
         }
 
+
+        function getGenreList(){
+          return $http.get(genreMovieDBUrl)
+                 .then(setGenreList)
+                 .catch( () => {console.log("Ha habido un error en getGenreList en TMDB Factory")});
+
+        }
+
+        function setGenreList(response){
+          return response;
+        }
         function getMovie(id){
             return $http.get(movieMovieDbUrl +id +"?"+api_key)
                   .then(setMovie)
@@ -88,6 +105,7 @@
         function setMovies(response){          
           console.log("received response in TMDBFactory");
           //totalCount = films.data.total_results;
+          console.log(response);
           return response;
         }
 
@@ -105,6 +123,7 @@
 
 
         function parseMovies(movies){
+
           let parsedMovies = [];
             for(var i = 0; i < movies.length; i++){
                 let parsedMovie = {};
@@ -186,6 +205,51 @@
         }
 
 
+        /*Filter functions */ 
+
+
+/* var configurationMovieDbUrl = "https://api.themoviedb.org/3/configuration?api_key=70c6c34847ca16cd1a4326639172acd2";
+        
+        var api_key = "?&api_key=70c6c34847ca16cd1a4326639172acd2";
+        var movieMovieDbUrl ="https://api.themoviedb.org/3/movie/";
+        var discoverMovieDBUrl="https://api.themoviedb.org/3/discover/movie?&api_key=70c6c34847ca16cd1a4326639172acd2";
+        var searchMovieDBUrl = "https://api.themoviedb.org/3/search/movie?api_key=70c6c34847ca16cd1a4326639172acd2&query=";
+        var popular = "&sort_by=popularity.desc";
+        var pageStr = "&page=";
+      //  var queryStr = "&query=";
+        var greaterDate ="&primary_release_date.gte=";
+        var lesserDate = "&primary_release_date.lte=
+        var youtubeEmbedUrl = "http://www.youtube.com/embed/";
+        var config = {};
+        var currentDate = new Date().toISOString().substring(0,10);
+        var totalCount = 0;
+        var movie = {};*/
+
+
+        function getMoviesWithinYearRange(min,max){
+          console.log("Filtering movies from" + min + " " + max);
+          return $http.get(discoverMovieDBUrl + greaterThanDate + min + lesserThanDate + max)
+                .then(setFilter)
+                .catch( () => {
+                  console.log("Error en getMoviesWithinYearRange en TMDB Factory");
+                })
+        }
+
+        function getMoviesWithinVoteRange(min,max){
+          console.log("Filtering movies with votes between " + min + " " + max);
+          return $http.get(discoverMovieDBUrl + greaterThanVote + min + lesserThanVote + max)
+                .then(setFilter)
+                .catch(() => {
+                  console.log("Error en getMoviesWithinVoteRange en TMDB Factory");
+                })
+
+        }
+
+
+        function setFilter(response){
+          return parseMovies(response.data.results);
+        }
+        /*Parse functions */
         function parseTrailers(trailers){
 
           console.log("parsing trailers");

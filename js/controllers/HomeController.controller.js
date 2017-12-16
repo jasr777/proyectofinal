@@ -25,10 +25,13 @@
         $scope.totalCount = 0;
         $scope.yearSlider  = {
             min : 1970,
-            max : Date = new Date().getFullYear(),
+            max : 2018,
+            //max : Date = new Date().getFullYear(),
             options : {
                 floor :1970,
-                ceil:2018
+                ceil:2018,
+        //        onEnd : filterMoviesByYear($scope.yearSlider.min, $scope.yearSlider.max)
+                onEnd : ()=> { getFilmsWithinYearRange($scope.yearSlider.min, $scope.yearSlider.max)}
             }
         }
         $scope.ratingSlider = {
@@ -36,10 +39,12 @@
             max : 10,
             options : {
                 floor: 0,
-                ceil : 10
+                ceil : 10,
+                onEnd : () => {getFilmsWithinVoteRange($scope.ratingSlider.min, $scope.ratingSlider.max)}
             }
         }
 
+        $scope.genres = [];
 
 
         
@@ -53,6 +58,10 @@
         $scope.getNextUnreleasedFilmPage = getNextUnreleasedFilmPage;
         $scope.getNextFilmPage = getNextFilmPage;
         $scope.searchFilms = searchFilms;
+        $scope.getFilmsWithinYearRange = getFilmsWithinYearRange;
+        $scope.getFilmsWithinVoteRange = getFilmsWithinVoteRange;
+        $scope.resetFilter = resetFilter;
+        $scope.generateGenreList = generateGenreList;
 
 
         activate();
@@ -60,6 +69,7 @@
         function activate() {
             TheMovieDB.getConfig();
         	getPopularFilms();
+            generateGenreList();
         }
 
         function getPopularFilms(){
@@ -181,6 +191,55 @@
             } else {
             console.log("No hay más elementos");
             }
+        }
+
+
+        /* Filter functions*/
+
+        function getFilmsWithinYearRange(min,max){
+            TheMovieDB.getMoviesWithinYearRange(min,max)
+                      .then(setFilteredFilms)
+                      .catch("Ha habido un error en getFilmsWithinYearRange en HomeController");
+        }
+
+        function getFilmsWithinVoteRange(min,max){
+            TheMovieDB.getMoviesWithinVoteRange(min,max)
+                      .then(setFilteredFilms)
+                      .catch("Ha habido un error en getFilmsWithinVoteRange en HomeController");
+        }
+
+        function resetFilter(){
+            $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+            getPopularFilms();
+
+        }
+        function setFilteredFilms(response){
+            $scope.films= response;
+        }
+
+        function generateGenreList(){
+            console.log($scope.genres);
+            TheMovieDB.getGenreList()
+                      .then(setGenreList)
+                      .catch( ()=> {
+                        console.log("Ha habido un error en generateGenreList en HomeController");
+                      })
+            console.log($scope.genres);
+        }
+        function setGenreList(response){
+            console.log("genres list :");
+            console.log(response.data);
+            $scope.genres = response.data.genres;
+            console.log("genres en scope");
+            console.log(typeof $scope.genres);
+
+        }
+
+        function getFilmsByGenreId(id){
+        
         }
 
 
