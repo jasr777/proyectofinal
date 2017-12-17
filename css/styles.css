@@ -61,6 +61,7 @@ nav{
 
 aside{
 	border-right: 1px solid #e9ecee;
+    height :100vh;
     position:fixed;
 }
 aside p{
@@ -230,8 +231,13 @@ aside p{
     color:#a5a8ac;
     font-weight:300;
     margin-bottom:10px;
-
 }
+
+.film-data p{
+display: block;
+font-size: 1.4em;
+}
+
 .similars {
     overflow-x: scroll;
 }
@@ -240,8 +246,8 @@ aside p{
     display:inline-block;
     background-color : #e9ecee;
     border-radius:10px;
-    padding:10px;
-    margin-bottom:30px;
+    padding:5px;
+    margin:0px 5px 0px 5px;
 }
 
 
@@ -250,5 +256,9 @@ aside p{
     color:#8e9297;
 
 }
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 
-
+}

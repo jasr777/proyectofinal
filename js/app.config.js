@@ -17,7 +17,7 @@
         	controller:'MovieController',
         	templateUrl :'/views/modal.html'
         })
-      
+    
          
     }
 

@@ -62,6 +62,7 @@
         $scope.getFilmsWithinVoteRange = getFilmsWithinVoteRange;
         $scope.resetFilter = resetFilter;
         $scope.generateGenreList = generateGenreList;
+        $scope.getFilmsByGenreId =getFilmsByGenreId;
 
 
         activate();
@@ -154,8 +155,6 @@
 
 
 
-
-
         function getNextPopularFilmPage(){
             
             TheMovieDB.getByPage($scope.pageNumber)
@@ -208,6 +207,8 @@
                       .catch("Ha habido un error en getFilmsWithinVoteRange en HomeController");
         }
 
+
+
         function resetFilter(){
             $scope.yearSlider.min = $scope.yearSlider.options.floor;
             $scope.yearSlider.max = $scope.yearSlider.options.ceil;
@@ -239,6 +240,11 @@
         }
 
         function getFilmsByGenreId(id){
+            TheMovieDB.getMoviesbyGenreId(id)
+                      .then(setFilteredFilms)
+                      .catch( () => {
+                        console.log("Ha habido un error en getFilmsByGenreId en HomeController");
+                    })
         
         }
 

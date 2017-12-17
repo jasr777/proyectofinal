@@ -6,9 +6,7 @@
                 <ul>
                     <li><a ng-click="getPopularFilms()" class="col-md-1">Descubrir</a></li>
                     <li><a ng-click="getUnreleasedFilms()" class="col-md-2">Proximamente</a ></li>
-					<li><a class="col-md-1"> Favoritas</a ></li>
-					<li><a class="col-md-2"> Para mas Tarde...</a></li>
-                    <li><input type="text" class="col-md-3" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
+                    <li><input type="text" class="col-md-offset-4 col-md-3" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
                 </ul>
 
             </div>
@@ -58,7 +56,7 @@
                     <p>Géneros</p>
 
                     <div>
-                        <button class="genre-btn" ng-click="getGenreById({{genre.id}})" ng-repeat="genre in genres">{{genre.name}}</button>
+                        <button class="genre-btn" ng-click="getFilmsByGenreId(genre.id)" ng-repeat="genre in genres">{{genre.name}}</button>
                     </div>
 
                 </div>
@@ -107,9 +105,9 @@
                     </div>
 
 
-
-
-
         </main>
+            <!--<div ng-include="'/views/modal.html'"> </div> -->
+
+
     </div>
     </div>

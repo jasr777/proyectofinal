@@ -23,6 +23,7 @@
         var greaterThanDate ="&primary_release_date.gte=";
         var greaterThanVote ="&vote_average.gte=";
         var lesserThanVote ="&vote_average.lte=";
+        var genresStr="&with_genres=";
         var youtubeEmbedUrl = "http://www.youtube.com/embed/";
         var config = {};
         var currentDate = new Date().toISOString().substring(0,10);
@@ -46,7 +47,8 @@
             parseTrailers : parseTrailers,
             getMoviesWithinYearRange : getMoviesWithinYearRange,
             getMoviesWithinVoteRange : getMoviesWithinVoteRange,
-            getGenreList : getGenreList
+            getGenreList : getGenreList,
+            getMoviesbyGenreId : getMoviesbyGenreId
         };
         return service;
         ////////////////
@@ -242,7 +244,15 @@
                 .catch(() => {
                   console.log("Error en getMoviesWithinVoteRange en TMDB Factory");
                 })
+        }
 
+        function getMoviesbyGenreId(id){
+          console.log("Filtering movies with id : " + id);
+          return $http.get(discoverMovieDBUrl+genresStr+id)
+                 .then(setFilter)
+                 .catch ( () => {
+                  console.log("Error en getMoviesByGenreId en TMDBFactory");
+                 })
         }
 
 
