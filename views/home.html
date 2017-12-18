@@ -14,7 +14,6 @@
     </nav>
 
     <div class="buffer"></div>
-
     <div class="container">
         <div class="row">
             <aside class="col-md-3">
@@ -25,11 +24,9 @@
                 </div>
                 
                 <div>
-                <div class="buffer"></div>    
-                    <div class="buffer"></div>
                     <div>    
                         <p>Año</p>
-                        <rzslider 
+                        <rzslider class="custom-slider"
                                 rz-slider-model="yearSlider.min"
                                 rz-slider-high="yearSlider.max"
                                 rz-slider-options="yearSlider.options">
@@ -65,16 +62,17 @@
 
 
             <main class="col-md-9">
-                    <div class="row">
+                    <div class="row filter">
                         <p class="col-md-4">{{totalCount}} peliculas encontradas</p>
-                        <p class="col-md-2 col-md-offset-5">Ordenar<span class="caret"></span></p>
+                        <p class="col-md-2 col-md-offset-6">Ordenar<span class="caret"></span></p>
                     </div>
                         <!-- Pelicula -->
 
                    
                     <div class="film col-md-4" ng-repeat="film in films">
+                        <a ng-click="getMovie(film.id)">
                             <div class="selected">
-                               <a href="#!/movie/{{film.id}}"> <p class="title col-md-12"> {{film.title}}</p></a>
+                                <p class="title col-md-12"> {{film.title}}</p>
                                 <div class="rating-panel">
                                     <div class="element">
                                         <img  src="img/Favorite.png" alt="">
@@ -85,6 +83,7 @@
                                    
                                 </div>
                              </div>
+                            </a>
                         <img class="film-poster" ng-if="film.poster_path == null" src="img/generic-film.jpg" alt="">
                         <img class="film-poster" ng-if="film.poster_path != null" ng-src="{{film.regular_poster}}" src="img/generic-film.jpg" alt="img1">
                     </div>
@@ -106,8 +105,9 @@
 
 
         </main>
-            <!--<div ng-include="'/views/modal.html'"> </div> -->
 
 
     </div>
+            <div ng-include="'/views/modal.html'"> </div>
+
     </div>

@@ -3,16 +3,17 @@
     angular
         .module('PeliculasEOI')
         .controller('HomeController', HomeController);
-    HomeController.$inject = ['$scope','TheMovieDB'];
+    HomeController.$inject = ['$scope','TheMovieDB','OMDB','$sce'];
     /* @ngInject */
-    function HomeController($scope,TheMovieDB) {
+    function HomeController($scope,TheMovieDB,OMDB, $sce) {
 
     	/* Scope variables */
 
     	$scope.films = [];
        $scope.pageNumber = 1;
        $scope.query ="";
-
+        $scope.movie = {};
+        $scope.modalFlag = false;
         // Control de la página en la que se encuentra la web
         
 
@@ -63,6 +64,8 @@
         $scope.resetFilter = resetFilter;
         $scope.generateGenreList = generateGenreList;
         $scope.getFilmsByGenreId =getFilmsByGenreId;
+        $scope.getMovie = getMovie;
+        $scope.toggleModalFlag = toggleModalFlag;
 
 
         activate();
@@ -71,6 +74,7 @@
             TheMovieDB.getConfig();
         	getPopularFilms();
             generateGenreList();
+
         }
 
         function getPopularFilms(){
@@ -247,6 +251,105 @@
                     })
         
         }
+
+
+        /* Modal related functions : from Moviecontroller */
+
+
+
+        
+
+        ////////////////
+
+        function toggleModalFlag(){
+            if ($scope.modalFlag){
+                $scope.modalFlag = false;
+            } else {
+                $scope.modalFlag=true;
+            }
+
+        }
+
+        function getMovie(id){
+            $scope.modalFlag = true;
+            console.log("GETTING MOVIE WITH ID " + id);
+            $scope.id = id;
+            TheMovieDB.getMovie(id).then(setMovie).catch( () => {console.log("Ha Habdio un error en getMovie() en MovieController")});
+        }
+        function setMovie(response){
+            console.log("SETTING MOVIE");
+            console.log(response);
+            $scope.movie = TheMovieDB.parseMovie(response);
+            
+            getRatings($scope.movie.imdb_id);
+            getSimilars($scope.id);
+            getTrailers($scope.id);
+            console.log("movie received in moviecontroller");
+            console.log($scope.movie);
+        }
+
+        function getRatings(imdbid){
+            OMDB.getMovieRating($scope.movie.imdb_id)
+                .then(setRatings)
+                .catch("Ha habido un error en getRatings en MovieController");
+        }
+
+        function setRatings(response){ 
+            let ratings = response.data.Ratings;
+            
+            $scope.movie.ratings = formatRatings(ratings);
+
+        }
+
+        function getSimilars(id){
+            TheMovieDB.getSimilarMovies(id)
+                       .then(setSimilar)
+                       .catch( () => {
+                        console.log("Ha habido un error en getSimilars(id) en MovieController");
+                       })
+
+        }
+
+        function setSimilar(response){
+            $scope.movie.similars = TheMovieDB.parseSimilars( response.results);
+
+        }
+
+
+        function getTrailers(id){
+            console.log("Getting trailers for id " + id);
+            TheMovieDB.getVideos(id)
+                      .then(setTrailers)
+                      .catch( () => {
+                        console.log("Error en getTrailers() en MovieController");
+                      });
+
+        }
+
+
+
+        function setTrailers(response){
+            console.log("Trailers received in MovieController");
+
+            console.log(response.data.results);   
+           // let trailers = TheMovieDB.parseTrailers(response.data.results);
+            $scope.movie.trailer = $sce.trustAsResourceUrl(TheMovieDB.parseTrailers(response.data.results));
+            console.log("Trailers after parsing : ");
+            console.log($scope.movie.trailer);
+            //$scope.movie.trailers = TheMovieDB.parseTrailers()
+
+        }
+
+        function formatRatings(ratings){
+            let parsedRatings = ratings;
+
+            parsedRatings[0] = parsedRatings[0].Value.replace("/10","");
+            parsedRatings[1] = parsedRatings[1].Value;
+            parsedRatings[2] = parsedRatings[2].Value.replace("/100","");           
+            return parsedRatings;
+
+        }
+
 
 
     

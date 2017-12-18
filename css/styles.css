@@ -65,61 +65,44 @@ aside{
     position:fixed;
 }
 aside p{
+    margin : 20px 0px;
     font-weight:600;
 }
 
 
 /*Slider styles */ 
-/*
-.custom-slider.rzslider .rz-bar {
-  background: #ffe4d1;
-  height: 2px;
+
+/* Mirar documentacion angularjs slider*/
+
+.custom-slider.rzslider .rz-pointer{
+    background-color:#2883d8;
 }
-.custom-slider.rzslider .rz-selection {
-  background: orange;
+.custom-slider.rzslider .rz-pointer:after{
+    background-color:none;
 }
 
+
 .custom-slider.rzslider .rz-pointer-min {
-  top: auto; /* to remove the default positioning */
-  /*bottom: 0;
-  background-color: green;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+    width : 37px;
+    height : 22px;
+        background-color:#2883d8;
 }
 
 
 .custom-slider.rzslider .rz-pointer-max {
-    
-}
-.custom-slider.rzslider .rz-pointer:after {
-  display: none;
+    width : 37px;
+    height : 22px;
+        background-color: #3cb878;
+
 }
 
-.custom-slider.rzslider .rz-bubble {
-  bottom: 14px;
-}
 
-.custom-slider.rzslider .rz-limit {
-  font-weight: bold;
-  color: orange;
-}
-
-.custom-slider.rzslider .rz-tick {
-  width: 1px;
-  height: 10px;
-  margin-left: 4px;
-  border-radius: 0;
-  background: #ffe4d1;
-  top: -1px;
-}
-
-.custom-slider.rzslider .rz-tick.rz-selected {
-  background: orange;
-}
-*/
 //////////////////////
 .buffer{
 	margin:20px;
+}
+.filter {
+    margin-top :10px;
 }
 
 .filter img{
@@ -142,6 +125,7 @@ aside p{
     border-radius: 9px  ;
     margin:2px;
     background-color:#fff;
+    font-size:13px;
 
 }
 .genre-btn:hover{
@@ -164,7 +148,7 @@ aside p{
     height:403px;
     width:269px;
     background-color: rgba(27, 33, 38, 0.6);
-        cursor :pointer;
+    cursor :pointer;
 
         
 }
@@ -207,23 +191,49 @@ aside p{
 }
 /* -- Modal -- */
 
-.film-data-wrapper{
-    margin :0 30px;
+
+.modal-layout {
+    position : fixed;
+    z-index :10;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    background-color : rgba(0,0,0,0.4);
+    top:0;
+    /*padding-left : 10%;*/
+
+
+
+}
+@keyframes slide {
+    from {right:-300px; opacity:0}
+    to {right:0; opacity:1}
+}
+
+.film-data{
+    position :relative;
+    background-color:#fff;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: slide;
+    animation-duration: 0.4s
+    ;
+}
+#poster{
+    margin-left:10px;
+    max-width:450px;
+    max-height:750px;
 }
 
 
-.film-data{
-    position :fixed;
-    z-index : 1;
-    left : 15%;
-    width:100%;
-    height:100%;
-    overflow : auto;
-    background-color:#fff;
+.film-data-wrapper{
+    background-color : #fff;
+}
+
 }
 
 .film-data h2 {
     margin-bottom : 10px;
+    padding-left:20px;
 }
 
 .film-data h3 {
@@ -234,8 +244,8 @@ aside p{
 }
 
 .film-data p{
-display: block;
-font-size: 1.4em;
+    display: block;
+    font-size: 1em;
 }
 
 .similars {
@@ -247,7 +257,7 @@ font-size: 1.4em;
     background-color : #e9ecee;
     border-radius:10px;
     padding:5px;
-    margin:0px 5px 0px 5px;
+    margin:5px 5px;
 }
 
 
@@ -262,3 +272,10 @@ font-size: 1.4em;
     float: none;
 
 }
+
+.close-button{
+    cursor:pointer;
+
+}
+
+
