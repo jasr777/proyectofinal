@@ -66,7 +66,9 @@
         $scope.getFilmsByGenreId =getFilmsByGenreId;
         $scope.getMovie = getMovie;
         $scope.toggleModalFlag = toggleModalFlag;
-
+        $scope.sortByName = sortByName;
+        $scope.sortByReleaseDate = sortByReleaseDate;
+        $scope.sortByRating = sortByRating;
 
         activate();
         ////////////////
@@ -350,7 +352,49 @@
 
         }
 
+        /* Sorting functions */
 
+        function sortByName(movies){
+            $scope.films.sort( (a,b) => {
+                if (a.original_title > b.original_title){
+                    return 1;
+                }
+                if (a.name < b.name){
+                    return -1;
+                }
+                return 0;
+
+            });
+
+        }
+
+
+    function sortByReleaseDate(movies){
+                $scope.films.sort( (a,b) => {
+                    if (a.release_date > b.release_date){
+                        return 1;
+                    }
+                    if (a.name < b.name){
+                        return -1;
+                    }
+                    return 0;
+
+                });
+
+            }
+    function sortByRating(movies){
+                $scope.films.sort( (a,b) => {
+                    if (a.vote_average > b.vote_average){
+                        return 1;
+                    }
+                    if (a.name < b.name){
+                        return -1;
+                    }
+                    return 0;
+
+                });
+
+            }
 
     
     }

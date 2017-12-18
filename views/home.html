@@ -43,7 +43,6 @@
                                 rz-slider-options="ratingSlider.options">                                
                          </rzslider>
                     </div>
-                    <div class="buffer"></div>
 
                     
 
@@ -62,9 +61,21 @@
 
 
             <main class="col-md-9">
-                    <div class="row filter">
+                    <div class="row">
                         <p class="col-md-4">{{totalCount}} peliculas encontradas</p>
-                        <p class="col-md-2 col-md-offset-6">Ordenar<span class="caret"></span></p>
+                        <div class="dropdown col-md-2 col-md-offset-6">
+                              <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Ordenar
+                                <span class="caret"></span>
+                              </a>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a ng-click="sortByName()">Por nombre</a></li>
+                                <li><a ng-click="sortByReleaseDate()">Por fecha de salida</a></li>
+                                <li><a ng-click="sortByRating()">Por valoración de usuarios</a></li>
+                             
+                              </ul>
+                                        </div>
+                       <!-- <p class="col-md-2 col-md-offset-6">Ordenar<span class="caret"></span></p>-->
                     </div>
                         <!-- Pelicula -->
 

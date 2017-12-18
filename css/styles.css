@@ -113,9 +113,25 @@ aside p{
     color:red;
 }
 
-.temporal{
-    margin:418px;
+.dropdown a {
+    text-decoration : none;
+
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; // remove the gap so it doesn't close
+ }
+ .dropdown-menu li a {
+    text-decoration :none;
+    color:#000;
+    cursor : pointer;
+ }
+
+ .dropdown-menu li a:hover{
+    color:red;
+    text-decoration :underline;
+ }
 
 .genre-btn{
     width:115px;
@@ -208,6 +224,21 @@ aside p{
 @keyframes slide {
     from {right:-300px; opacity:0}
     to {right:0; opacity:1}
+}
+
+@keyframes slideout {
+    from {right:0; opacity:1}
+    to {right:-300; opacity:0}
+}
+
+.modal-out{
+    animation-name: slideout;
+    animation-duration: 0.4s;
+        position :relative;
+    background-color:#fff;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+
+
 }
 
 .film-data{
