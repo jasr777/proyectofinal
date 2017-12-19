@@ -81,6 +81,10 @@ hr{
     border: 1px solid #e9ecee;
 }
 
+
+.min-buffer{
+    margin-left:14px;
+}
 /*Slider styles */ 
 
 /* Mirar documentacion angularjs slider*/
