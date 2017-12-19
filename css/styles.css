@@ -156,9 +156,15 @@ hr{
     font-size:12px;
 
 }
+
 .genre-btn:hover{
     color:#2883d8;
     border : 2px solid  #2384d9;
+}
+.genre-btn:focus{
+    color:#2883d8;
+    border : 2px solid  #2384d9;
+
 }
 .film-poster{
     height:403px;
