@@ -65,6 +65,10 @@ aside{
     height :100vh;
     position:fixed;
 }
+main {
+        border-left: 1px solid #e9ecee;
+
+}
 aside p{
     margin : 20px 0px;
     font-weight:600;
@@ -149,7 +153,7 @@ hr{
     border-radius: 9px  ;
     margin:2px;
     background-color:#fff;
-    font-size:0.9em;
+    font-size:12px;
 
 }
 .genre-btn:hover{
@@ -262,11 +266,15 @@ hr{
     color : #c0c4c8!important;
 }
 #poster{
+    /*
     margin-left:10px;
-    max-width:450px;
-    max-height:750px;
+    
+    max-width:450px;*/
+    min-height:660px;
 }
-
+.movie-container{
+    min-height:660px;
+}
 .movie-header{
     min-height:103px;
 }
@@ -279,31 +287,35 @@ hr{
 .duration-margin{
     margin-left : 55%;
 }
-.movie-info{
+.movie-info{    
     margin-top:-18px;
-    margin-left:33px;
-    min-height:252px;
+    max-height:252px;
 }
+
 .movie-info p {
     margin-top:33px;
+
+    /*margin-left:18px;*/
     font-weight:400;
     font-size :15.87px;
     color :#8e9297;
 }
 
 .movie-info h2{
-    display: inline-block;
+    margin-top:14px;
 }
 .player{
-    margin-top:-7px;
-        margin-left:33px;
+     margin-left: -9px;
+     min-height:409px;
+}
 
-    min-height:409px;
-    min-width:707px;
+.player h2 {
+
 }
 .rating-alignment{
     color : #c0c4c8;
-    margin-left:78%;
+    margin-left:67%;
+    margin-top:20px;
 }
 
 .rating-alignment img{
@@ -325,22 +337,26 @@ hr{
     font-weight:300;
     margin-bottom:10px;
 }
-
+/*
 .film-data p{
     display: inline-block;
     font-size: 15.87px;
     margin-left : -10px;
-}
+}*/
 
+.genre-container{
+    margin-top:10px;
+}
 
 .genre-tag{
     display:inline-block;
     background-color : #e9ecee;
     border-radius:10px;
     padding:5px;
-    margin:5px 5px;
+    margin-right:2px;
     font-size : 14px;
     color:#000;
+    margin-top:1px;
 }
 
 
@@ -369,5 +385,5 @@ hr{
 .similar p{
     margin-top:15px;
     color:#000;
-    font-size:24.76px;
+    font-size:18.76px;
 }

@@ -17,6 +17,8 @@
         $scope.genreId =0;       
         $scope.currentPage = 0; 
         $scope.totalCount = 0;
+        $scope.contentFlag= false;
+        $scope.elements = 20;
         /* Sliders -----------------------------------------*/
         $scope.yearSlider  = {
             min : 1970,
@@ -57,6 +59,7 @@
         $scope.toggleModalFlag = toggleModalFlag;
         $scope.setPageMode = setPageMode;
 
+         
         /* REFACTOR :  Unused / To be implemented  
         $scope.getNextPopularFilmPage = getNextPopularFilmPage;
         $scope.getNextUnreleasedFilmPage = getNextUnreleasedFilmPage;
@@ -83,6 +86,8 @@
 
         function getPopularFilms(){
             $scope.currentPage=0;
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
 
         	TheMovieDB.getPopularMovies()
         	.then(setPopularFilms)
@@ -97,6 +102,10 @@
         }
         function getUnreleasedFilms(){
             $scope.currentPage = 1;
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
+
+
             TheMovieDB.getUnreleasedMovies()
             .then(setUnreleasedFilms)
             .catch( () => {
@@ -109,6 +118,9 @@
 
         }
         function searchFilms (query){
+            $scope.pageNumber = 1;
+
+            if (query.length > 0){
             $scope.currentPage = 2;
             $scope.query=query;
             console.log("Searching " + query);
@@ -118,6 +130,10 @@
             .catch( () => {
                 console.log("Error en searchFilms() en HomeController");
             });
+        } else{
+            getPopularFilms();
+
+        }
             $scope.yearSlider.min = $scope.yearSlider.options.floor;
             $scope.yearSlider.max = $scope.yearSlider.options.ceil;
             $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
@@ -127,20 +143,37 @@
         /* Filter getters*/
 
         function getFilmsWithinYearRange(min,max){
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
+
             $scope.currentPage = 3;
             TheMovieDB.getMoviesWithinYearRange(min,max)
                       .then(setFilteredFilms)
                       .catch("Ha habido un error en getFilmsWithinYearRange en HomeController");
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+
+
         }
 
         function getFilmsWithinVoteRange(min,max){
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
+
             $scope.currentPage =4;
             TheMovieDB.getMoviesWithinVoteRange(min,max)
                       .then(setFilteredFilms)
                       .catch("Ha habido un error en getFilmsWithinVoteRange en HomeController");
+            $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+
         }
 
         function getFilmsByGenreId(id){
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
+
+
             $scope.currentPage = 5;
             $scope.genreId = id;
             TheMovieDB.getMoviesbyGenreId(id)
@@ -165,6 +198,8 @@
             console.log("Films.results received in HomeController");
             console.log(filmsReceived);
             $scope.films = TheMovieDB.parseMovies(filmsReceived);
+            $scope.elements = $scope.films.length;
+            console.log("ELEMENTS VALUE " + $scope.elements);
             console.log("After parsing, in HomeController");
             console.log($scope.films);
         }
@@ -178,26 +213,34 @@
             console.log("Unreleased films received before parsing");
             console.log(filmsReceived);
             $scope.films =TheMovieDB.parseMovies(filmsReceived);
+            $scope.elements = $scope.films.length;
+            console.log("ELEMENTS VALUE " + $scope.elements);
 
         }
 
 
         function setMovieResults(films){
+
             $scope.totalCount = films.data.total_results;
             let filmsReceived = films.data.results.splice(0);            
             $scope.films = TheMovieDB.parseMovies(filmsReceived);
-            $scope.query="";
+            $scope.elements = $scope.films.length;
+            console.log("ELEMENTS VALUE " + $scope.elements);
         }  
 
 
         /* Filter Setters */
 
         function setFilteredFilms(response){
+
             $scope.totalCount = response.data.total_results;
             $scope.films= TheMovieDB.parseMovies(response.data.results);
+            $scope.elements = $scope.films.length;
+            console.log("ELEMENTS VALUE " + $scope.elements);
         }
 
         function generateGenreList(){
+
             console.log($scope.genres);
             TheMovieDB.getGenreList()
                       .then(setGenreList)
@@ -207,6 +250,7 @@
             console.log($scope.genres);
         }
         function setGenreList(response){
+
             console.log("genres list :");
             console.log(response.data);
             $scope.genres = response.data.genres;
@@ -409,7 +453,13 @@
         function addNextPage(films){
             console.log("setting next page ");
             console.log(films);
-            if (films.data.page < films.data.total_pages){
+            console.log("SCOPE PAGE NUMBER");
+            console.log($scope.pageNumber);
+            console.log("---------FILM DATA PAGE ----------");
+            console.log(films.data.page);
+            console.log(films.data.total_pages);
+
+            if (films.data.page <= films.data.total_pages){
                 console.log("List of films to add ");
                 console.log(films);
                 let filmsReceived = TheMovieDB.parseMovies(films.data.results.splice(0));
@@ -417,12 +467,20 @@
                 // TODO : Investigar por que concat() no funciona bien en el ng-repeat
 
                 for (var i = 0; i < filmsReceived.length; i++){
-                    $scope.films.push(filmsReceived[i]);
+                        $scope.films.push(filmsReceived[i]);
+                        $scope.elements++
+                        console.log("ELEMENTS VALUE  EN NEXT PAGE" + $scope.elements);
+                        if($scope.elements == $scope.totalCount){
+                            $scope.contentFlag=true;
+                            break;
+                        }
                 }
             } else {
-            console.log("No hay más elementos");
+                    $scope.contentFlag = true;
+                    console.log("No hay más elementos");
             }
         }
+    
 
 
 
@@ -609,8 +667,8 @@
             return parsedRatings;
         }
         /*----------------------------------------------------------------------------*/
+        /* Auxiliary functions -------------------------------------------------------*/
 
 
-    
     }
 })();

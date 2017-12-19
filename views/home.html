@@ -6,7 +6,7 @@
                 <ul> 
                     <li><a ng-click="getPopularFilms()" class="col-md-1 col-md-offset-1">Descubrir</a></li>
                     <li><a ng-click="getUnreleasedFilms()" class="col-md-1 col-md-offset-1">Proximamente</a ></li>
-                    <li><input type="text" class="col-md-4" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
+                    <li><input type="text" class="col-md-4" ng-model-options="{debounce:800}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
                 </ul>
 
             </div>
@@ -104,7 +104,7 @@
                     </div>
 
                     <!-- Fin Pelicula -->
-                    <div ng-if="currentPage == 0" class="row">
+                    <div ng-if="currentPage == 0 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(0,'',0,0,0)">Cargar más...</a>
                             <div class="buffer"></div>
@@ -112,33 +112,33 @@
                     </div>
 
 
-                    <div ng-if="currentPage == 1" class="row">
+                    <div ng-if="currentPage == 1 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(1,'',0,0,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
 
-                    <div ng-if="currentPage == 2" class="row">
+                    <div ng-if="currentPage == 2 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(2,searchQuery,0,0,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>      
 
-                    <div ng-if="currentPage == 3" class="row">
+                    <div ng-if="currentPage == 3 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(3,'',yearSlider.min,yearSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>      
-                    <div ng-if="currentPage == 4" class="row">
+                    <div ng-if="currentPage == 4 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(4,'',ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
-                    <div ng-if="currentPage == 5" class="row">
+                    <div ng-if="currentPage == 5 && !contentFlag" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(5,'',ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
