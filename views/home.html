@@ -3,24 +3,23 @@
             <div class="row">
 
                 <img src="img/logo.svg" alt="logo aqui" class="col-md-2">
-                <ul>
-                    <li><a ng-click="getPopularFilms()" class="col-md-1">Descubrir</a></li>
-                    <li><a ng-click="getUnreleasedFilms()" class="col-md-2">Proximamente</a ></li>
-                    <li><input type="text" class="col-md-offset-4 col-md-3" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
+                <ul> 
+                    <li><a ng-click="getPopularFilms()" class="col-md-1 col-md-offset-1">Descubrir</a></li>
+                    <li><a ng-click="getUnreleasedFilms()" class="col-md-1 col-md-offset-1">Proximamente</a ></li>
+                    <li><input type="text" class="col-md-4" ng-model-options="{debounce:500}" ng-model="searchQuery" ng-change="searchFilms(searchQuery)" placeholder="Buscar..."></li>
                 </ul>
 
             </div>
         </div>
     </nav>
 
-    <div class="buffer"></div>
     <div class="container">
         <div class="row">
             <aside class="col-md-3">
                 <div class="row filter">
-                    <img src="img/filter.png" alt="filter-img" class="col-md-4 filter-img">
-                    <a class="col-md-4">Filtrar</a>
-                    <a class="col-md-4" ng-click="resetFilter()">Borrar</a>
+                    <img src="img/filter.png" alt="filter-img" class="col-md-3 filter-img">
+                    <p class="col-md-offset-1 col-md-3 reset-p">Filtrar</p>
+                    <a class="col-md-offset-1 col-md-3" ng-click="resetFilter()">Borrar</a>
                 </div>
                 
                 <div>
@@ -47,7 +46,6 @@
                     
 
                 </div>
-                <div class="buffer"></div>
                 <div>
                     <p>Géneros</p>
 
@@ -61,19 +59,25 @@
 
 
             <main class="col-md-9">
-                    <div class="row">
+                    <div class="row buffer">
                         <p class="col-md-4">{{totalCount}} peliculas encontradas</p>
                         <div class="dropdown col-md-2 col-md-offset-6">
-                              <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <!--   <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Ordenar
                                 <span class="caret"></span>
                               </a>
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a ng-click="sortByName()">Por nombre</a></li>
-                                <li><a ng-click="sortByReleaseDate()">Por fecha de salida</a></li>
-                                <li><a ng-click="sortByRating()">Por valoración de usuarios</a></li>
+                                <li><a ng-click="sortByName(true)">Por nombre : Ascendente </li>
+                                <li><a ng-click="sortByName(false)">Por nombre : Descendente</li>
+
+                                <li><a ng-click="sortByReleaseDate(true)">Por fecha de salida : Ascendente </a></li>
+
+                                <li><a ng-click="sortByReleaseDate(false)">Por fecha de salida : Descendente </a></li>                        
+                                <li><a ng-click="sortByRating(true)">Por valoración de usuarios : Ascendente</a></li>
+                                <li><a ng-click="sortByRating(false)">Por valoración de usuarios : Descendente    </a></li>
+
                              
-                              </ul>
+                              </ul> -->
                                         </div>
                        <!-- <p class="col-md-2 col-md-offset-6">Ordenar<span class="caret"></span></p>-->
                     </div>
@@ -83,7 +87,7 @@
                     <div class="film col-md-4" ng-repeat="film in films">
                         <a ng-click="getMovie(film.id)">
                             <div class="selected">
-                                <p class="title col-md-12"> {{film.title}}</p>
+                                <p class="title col-md-12"> {{film.original_title}}</p>
                                 <div class="rating-panel">
                                     <div class="element">
                                         <img  src="img/Favorite.png" alt="">
@@ -100,25 +104,53 @@
                     </div>
 
                     <!-- Fin Pelicula -->
-                    <div ng-if="query == ''" class="row">
+                    <div ng-if="currentPage == 0" class="row">
                         <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="getNextFilmPage()">Cargar más...</a>
+                            <a class="col-md-offset-6" ng-click="setPageMode(0,'',0,0,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
 
-                    <div ng-if="query != ''" class="row">
+
+                    <div ng-if="currentPage == 1" class="row">
                         <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="getNextFilmPage(query)">Cargar más...</a>
+                            <a class="col-md-offset-6" ng-click="setPageMode(1,'',0,0,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
 
+                    <div ng-if="currentPage == 2" class="row">
+                        <div class="col-md-12" >
+                            <a class="col-md-offset-6" ng-click="setPageMode(2,searchQuery,0,0,0)">Cargar más...</a>
+                            <div class="buffer"></div>
+                        </div>
+                    </div>      
+
+                    <div ng-if="currentPage == 3" class="row">
+                        <div class="col-md-12" >
+                            <a class="col-md-offset-6" ng-click="setPageMode(3,'',yearSlider.min,yearSlider.max,0)">Cargar más...</a>
+                            <div class="buffer"></div>
+                        </div>
+                    </div>      
+                    <div ng-if="currentPage == 4" class="row">
+                        <div class="col-md-12" >
+                            <a class="col-md-offset-6" ng-click="setPageMode(4,'',ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
+                            <div class="buffer"></div>
+                        </div>
+                    </div>
+                    <div ng-if="currentPage == 5" class="row">
+                        <div class="col-md-12" >
+                            <a class="col-md-offset-6" ng-click="setPageMode(5,'',ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
+                            <div class="buffer"></div>
+                        </div>
+                    </div>
 
         </main>
 
 
     </div>
-            <div ng-include="'/views/modal.html'"> </div>
+        <!-- Probar a poner ng-controller y usar ng-if segun convenga -->
+           
 
     </div>
+ <div ng-include="'/views/modal.html'"> </div>

@@ -1,60 +1,66 @@
 <div class="modal-layout" ng-show="modalFlag"> 
     <div class="row">
-        <div class="col-md-1"></div>
-            <div class="col-md-11">
+        <div class="col-md-3"></div>
+            <div class="col-md-9">
                 <div class="film-data">
                     <div class="film-data-wrapper">
-                        <div class="row">
-                            <h2 class="col-md-3 vcenter">{{movie.title}}</h2>
+                        <div class="movie-header">
+                            <h2 class= "col-md-2 vcenter">{{movie.title}}</h2>
                             <h3 class="col-md-1 vcenter"> {{movie.year}}</h3>
-                            <img class="col-md-offset-5 vcenter close-button" ng-click="toggleModalFlag()"  src="img/Close.png" alt="">
-                          
-                        </div>
-                        <hr>
+                            <img class="col-md-3 col-md-offset-8 vcenter close-button" ng-click="toggleModalFlag()"  src="img/Close.png" alt="">
+                             <hr>
+
+                        </div>  
+                       
                         <div class="row">
-                                <img  id="poster" class="col-md-6" ng-src="{{movie.full_poster}}" ng-if="movie.poster_path != null" alt="" >
-                                <img  id="poster" class="col-md-6" ng-if ="movie.poster_path == null" src="img/generic-film.jpg" alt="">
+                                <img  id="poster" class="col-md-4" ng-src="{{movie.full_poster}}" ng-if="movie.poster_path != null" alt="" >
+                                <img  id="poster" class="col-md-4" ng-if ="movie.poster_path == null" src="img/generic-film.jpg" alt="">
                             
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <h2 class="col-md-6 text-left">Sinopsis</h2>
-                                    <h2 class="col-md-6 text-right" ng-if="movie.duration != '0h 00m'">{{movie.duration}}</h2>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="genre-tag text-left" ng-repeat="genre in movie.genres">{{genre.name}}</div>
+                            <div class="col-md-8">
+                                <div class="movie-info">
+                                        <div class="row">
+                                            <h2 class="col-md-4">Sinopsis</h2>
+                                            <h2 class="duration-margin gray-text" ng-if="movie.duration != '0h 00m'">{{movie.duration}}</h2>
+                                            <div class="col-md-5">
+                                                <div class="genre-tag text-left" ng-repeat="genre in movie.genres">{{genre.name}}</div>
+                                            </div>
+                                            <div class=" rating-alignment" ng-if="movie.ratings.length == 3">
+                                            <img src="img/Favorite.png" alt=""> {{movie.ratings[0]}}
+                                            <img src="img/rottentomatoes.png" alt=""> {{movie.ratings[1]}}
+                                            <img src="img/popcorn.png" alt=""> {{movie.ratings[2]}} %
                                     </div>
-                                    <div class="col-md-6 text-right" ng-if="movie.ratings.length > 0">
-                                        <img src="img/Favorite.png" alt=""> {{movie.ratings[0]}}
-                                        <img src="img/rottentomatoes.png" alt=""> {{movie.ratings[1]}}
-                                        <img src="img/popcorn.png" alt=""> {{movie.ratings[2]}} %
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="buffer"></div>
+                                        </div>
+                                         
+                                    
                                     <div class="col-md-12" ng-if="movie.overview.length > 0">
                                         <p>{{movie.overview}}</p>
                                     </div>
-                                </div>               
-                      
-                                <div class="row">
-                                    <div class="col-md-8">
+                                </div>                                           
+                                    <div class="player">
                                         <h2>Trailer</h2>  
-                                        <iframe ng-src="{{movie.trailer}}" width=700px height=350></iframe>
+                                        <iframe class= "" ng-src="{{movie.trailer}}" width=960  height=341></iframe>
                                     </div>
-                                </div>
+                               
                             </div>
                         </div>        
-                    <p> <span class="bold-grey">Subs :</span> en es de </p>
                     <hr>
+                    <div class="similar">
+                    <div class="col-md-9 ">Películas similares</div>
                     <div class="row" ng-if="movie.similars.length > 0 ">
-                        <div class="col-md-12">
-                            <p>Películas similares</p>
-                            <div class="col-md-2" ng-repeat="similar in movie.similars |limitTo:4">
+                        <div class="col-md-12">                        
+                            <div class="col-md-3 similar-buffer" ng-repeat="similar in movie.similars |limitTo:4">
                                 <a ng-click="getMovie(similar.id)"><img class="center-block" ng-src="{{similar.url}}" > </a>
-                                <p class="text-center">{{similar.title}}</p>
+                                <p class="col-md-12 text-center">{{similar.title}}</p>
                             </div>
                         </div>
+                    </div>
+
+                        <div class="row" ng-if="movie.similars.length == 0 ">
+                        <div class="empty-buffer">                        
+                            <p class="col-md-12">  No disponemos actualmente  esa información, vuelve más adelante!</p>
+                        </div>
+                    </div>
+
                     </div>
                 
                 </div>

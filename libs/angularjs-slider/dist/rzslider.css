@@ -113,22 +113,22 @@
   left: 12px;
   width: 8px;
   height: 8px;
-  background: #ffffff;
+ /* background: #ffffff;*/
   border-radius: 4px;
   content: '';
 }
-
+/*
 .rzslider .rz-pointer:hover:after {
   background-color: #ffffff;
-}
+}*/
 
 .rzslider .rz-pointer.rz-active {
   z-index: 4;
 }
-
+/*
 .rzslider .rz-pointer.rz-active:after {
   background-color: #451aff;
-}
+}*/
 
 .rzslider .rz-bubble {
   bottom: 16px;

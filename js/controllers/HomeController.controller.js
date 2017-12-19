@@ -8,30 +8,22 @@
     function HomeController($scope,TheMovieDB,OMDB, $sce) {
 
     	/* Scope variables */
-
     	$scope.films = [];
-       $scope.pageNumber = 1;
-       $scope.query ="";
+        $scope.genres = [];
         $scope.movie = {};
+        $scope.pageNumber = 1;
+        $scope.query ="";        
         $scope.modalFlag = false;
-        // Control de la página en la que se encuentra la web
-        
-
-        /* 0 => Descubrir
-           1 => Proximamente
-           2 => Favoritas
-           3 => Para más tarde  
-        */
-        $scope.currentPage = 0; // Por defecto en discover
+        $scope.genreId =0;       
+        $scope.currentPage = 0; 
         $scope.totalCount = 0;
+        /* Sliders -----------------------------------------*/
         $scope.yearSlider  = {
             min : 1970,
             max : 2018,
-            //max : Date = new Date().getFullYear(),
             options : {
                 floor :1970,
                 ceil:2018,
-        //        onEnd : filterMoviesByYear($scope.yearSlider.min, $scope.yearSlider.max)
                 onEnd : ()=> { getFilmsWithinYearRange($scope.yearSlider.min, $scope.yearSlider.max)}
             }
         }
@@ -44,8 +36,8 @@
                 onEnd : () => {getFilmsWithinVoteRange($scope.ratingSlider.min, $scope.ratingSlider.max)}
             }
         }
-
-        $scope.genres = [];
+        /* ---------------------------------------------------*/
+       
 
 
         
@@ -54,10 +46,7 @@
 
     	/* Scope functions */
     	$scope.getPopularFilms = getPopularFilms;
-        $scope.getNextPopularFilmPage = getNextPopularFilmPage;
         $scope.getUnreleasedFilms = getUnreleasedFilms;
-        $scope.getNextUnreleasedFilmPage = getNextUnreleasedFilmPage;
-        $scope.getNextFilmPage = getNextFilmPage;
         $scope.searchFilms = searchFilms;
         $scope.getFilmsWithinYearRange = getFilmsWithinYearRange;
         $scope.getFilmsWithinVoteRange = getFilmsWithinVoteRange;
@@ -66,11 +55,18 @@
         $scope.getFilmsByGenreId =getFilmsByGenreId;
         $scope.getMovie = getMovie;
         $scope.toggleModalFlag = toggleModalFlag;
+        $scope.setPageMode = setPageMode;
+
+        /* REFACTOR :  Unused / To be implemented  
+        $scope.getNextPopularFilmPage = getNextPopularFilmPage;
+        $scope.getNextUnreleasedFilmPage = getNextUnreleasedFilmPage;
+        $scope.getNextFilmPage = getNextFilmPage;
         $scope.sortByName = sortByName;
         $scope.sortByReleaseDate = sortByReleaseDate;
         $scope.sortByRating = sortByRating;
-
+        */
         activate();
+
         ////////////////
         function activate() {
             TheMovieDB.getConfig();
@@ -78,6 +74,12 @@
             generateGenreList();
 
         }
+
+        /******************************************************************************/
+        /*                       HOME VIEW CONTROLLER FUNCTIONS                       */
+        /******************************************************************************/
+
+        /* Get functions --------------------------------------------------------*/
 
         function getPopularFilms(){
             $scope.currentPage=0;
@@ -87,7 +89,75 @@
         	.catch( () => {
                 console.log("Ha habido un error en getPopularFilms en HomeController");
             });
+                        $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+
         }
+        function getUnreleasedFilms(){
+            $scope.currentPage = 1;
+            TheMovieDB.getUnreleasedMovies()
+            .then(setUnreleasedFilms)
+            .catch( () => {
+                console.log("Ha habido un error en getUnreleasedFilms() en HomeController");
+            });
+                        $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+
+        }
+        function searchFilms (query){
+            $scope.currentPage = 2;
+            $scope.query=query;
+            console.log("Searching " + query);
+            console.log($scope.currentPage);
+            TheMovieDB.searchMovies(query)
+            .then(setMovieResults)
+            .catch( () => {
+                console.log("Error en searchFilms() en HomeController");
+            });
+            $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+
+        }
+        /* Filter getters*/
+
+        function getFilmsWithinYearRange(min,max){
+            $scope.currentPage = 3;
+            TheMovieDB.getMoviesWithinYearRange(min,max)
+                      .then(setFilteredFilms)
+                      .catch("Ha habido un error en getFilmsWithinYearRange en HomeController");
+        }
+
+        function getFilmsWithinVoteRange(min,max){
+            $scope.currentPage =4;
+            TheMovieDB.getMoviesWithinVoteRange(min,max)
+                      .then(setFilteredFilms)
+                      .catch("Ha habido un error en getFilmsWithinVoteRange en HomeController");
+        }
+
+        function getFilmsByGenreId(id){
+            $scope.currentPage = 5;
+            $scope.genreId = id;
+            TheMovieDB.getMoviesbyGenreId(id)
+                      .then(setFilteredFilms)
+                      .catch( () => {
+                        console.log("Ha habido un error en getFilmsByGenreId en HomeController");
+                    });
+            $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+        
+        }
+
+
+        /*-------------------------------------------------------------------*/
+        /* Set functions ----------------------------------------------------*/
 
         function setPopularFilms(films){
             $scope.totalCount = films.data.total_results;
@@ -100,17 +170,8 @@
         }
 
 
-        function getUnreleasedFilms(){
-            $scope.currentPage = 1;
-            TheMovieDB.getUnreleasedMovies()
-            .then(setUnreleasedFilms)
-            .catch( () => {
-                console.log("Ha habido un error en getUnreleasedFilms() en HomeController");
-            });
-        }
 
         function setUnreleasedFilms(films){
-            $scope.currentPage = 1;
             $scope.totalCount = films.data.total_results;
 
             let filmsReceived = films.data.results.splice(0);
@@ -120,111 +181,20 @@
 
         }
 
-        function searchFilms (query){
-            $scope.currentPage = 4;
-            $scope.query=query;
-            console.log("Searching " + query);
-            console.log($scope.currentPage);
-            TheMovieDB.searchMovies(query)
-            .then(setMovieResults)
-            .catch( () => {
-                console.log("Error en searchFilms() en HomeController");
-            });
-        }
 
         function setMovieResults(films){
-            $scope.currentPage =4;
             $scope.totalCount = films.data.total_results;
-            let filmsReceived = films.data.results.splice(0);
+            let filmsReceived = films.data.results.splice(0);            
             $scope.films = TheMovieDB.parseMovies(filmsReceived);
-        }
-
-        function getNextFilmPage(){
-            console.log($scope.currentPage);
-            $scope.pageNumber++;
-            if($scope.currentPage < 4 ){
-                console.log("not in search");
-                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,"")
-                          .then(addNextPage)
-                          .catch( () => {
-                            console.log("Error en getNextFilmPage() en HomeController");
-                          });
-            } else {
-                console.log("in search");
-                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,$scope.query)
-                    .then(addNextPage)
-                    .catch( () => {
-                        console.log("Error en getNextFilmPage() en HomeController");
-                    });
-            }
-        }
+            $scope.query="";
+        }  
 
 
+        /* Filter Setters */
 
-        function getNextPopularFilmPage(){
-            
-            TheMovieDB.getByPage($scope.pageNumber)
-                      .then(addNextPage)
-                      .catch( () => {
-                        console.log("Error en getNextPopularFilmPage() en HomeController");
-                      });
-        }
-
-        function getNextUnreleasedFilmPage(){
-            $scope.unreleasedPageNumber++;
-            TheMovieDB.getByPageUNreleased($scope.unreleasedPageNumber)
-            .then(addNextPage)
-            .catch( () => {
-                console.log("Error en getNextUnreleasedFilmPage en HomeController");
-            });
-
-        }
-
-        function addNextPage(films){
-            console.log("setting next page ");
-            console.log(films);
-            if (films.data.page < films.data.total_pages){
-                console.log("List of films to add ");
-                console.log(films);
-                let filmsReceived = TheMovieDB.parseMovies(films.data.results.splice(0));
-                console.log(filmsReceived);
-                // TODO : Investigar por que concat() no funciona bien en el ng-repeat
-
-                for (var i = 0; i < filmsReceived.length; i++){
-                    $scope.films.push(filmsReceived[i]);
-                }
-            } else {
-            console.log("No hay más elementos");
-            }
-        }
-
-
-        /* Filter functions*/
-
-        function getFilmsWithinYearRange(min,max){
-            TheMovieDB.getMoviesWithinYearRange(min,max)
-                      .then(setFilteredFilms)
-                      .catch("Ha habido un error en getFilmsWithinYearRange en HomeController");
-        }
-
-        function getFilmsWithinVoteRange(min,max){
-            TheMovieDB.getMoviesWithinVoteRange(min,max)
-                      .then(setFilteredFilms)
-                      .catch("Ha habido un error en getFilmsWithinVoteRange en HomeController");
-        }
-
-
-
-        function resetFilter(){
-            $scope.yearSlider.min = $scope.yearSlider.options.floor;
-            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
-            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
-            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
-            getPopularFilms();
-
-        }
         function setFilteredFilms(response){
-            $scope.films= response;
+            $scope.totalCount = response.data.total_results;
+            $scope.films= TheMovieDB.parseMovies(response.data.results);
         }
 
         function generateGenreList(){
@@ -245,24 +215,306 @@
 
         }
 
-        function getFilmsByGenreId(id){
-            TheMovieDB.getMoviesbyGenreId(id)
-                      .then(setFilteredFilms)
+        /*Filter Resetter */
+        function resetFilter(){
+            $scope.yearSlider.min = $scope.yearSlider.options.floor;
+            $scope.yearSlider.max = $scope.yearSlider.options.ceil;
+            $scope.ratingSlider.min = $scope.ratingSlider.options.floor;
+            $scope.ratingSlider.max = $scope.ratingSlider.options.ceil;
+            getPopularFilms();
+
+
+        }
+
+        /* Result pagination functions ------------------------------*/
+
+        /*  Valores de currentPage : 
+
+            Descubrir : 0 
+            Proximamente : 1
+            Busqueda : 2
+            Filtro por año : 3
+            FIltro por valoracion : 4
+            Filtro por genero : 5
+            Orden por nombre ascendente : 6
+            Orden por nombre descendente : 7
+            Orden por fecha de salida Asc : 8
+            Orden por fecha de salida Desc : 9
+            Orden por valoracion de usuario asc : 10
+            Orden por valoracion de usuario  desc :11
+
+
+                                              */
+
+
+
+        function setPageMode(currentPage,query,min,max,genreId){
+            console.log("setting page mode");
+            switch (currentPage){
+                // case x : return 0 nextPage
+                case 0 : return getNextPopular();
+                         break;
+                case 1 : return getNextUpcoming();
+                         break;
+                case 2 : return getNextSearch(query);
+                         break;
+                case 3 : return getNextYearFilter(min,max);
+                         break;
+                case 4 : return getNextRatingFilter(min,max);
+                         break;
+                case 5 : return getNextGenreFilter();
+                         break;
+                /* TODO: Not Implemented 
+                case 6 : return getNextOrderedByNameAsc();
+                         break;
+                case 7 : return getNextOrderedByNameDesc();
+                         break;
+                case 8 : return getNextOrderedByReleasedAsc();
+                         break;
+                case 9 : return getNextOrderedByReleaseDesc();
+                         break;
+                case 10 : return getNextOrderedByRatingAsc();
+                         break;
+                case 11 : return getNextOrderedByRatingDesc();
+                         break;
+
+                */
+            }
+
+        }
+
+        /* GetNextPage Functions --- */
+        function getNextPopular(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextPopularPage($scope.pageNumber)
+                      .then(addNextPage)
                       .catch( () => {
-                        console.log("Ha habido un error en getFilmsByGenreId en HomeController");
-                    })
-        
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+
+        function getNextUpcoming(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextUpcomingPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch ( () => {
+                        console.log("Ha habido un error en getNextUpcoming en HC");
+                      })
         }
 
 
-        /* Modal related functions : from Moviecontroller */
+        function getNextSearch(query){
+            $scope.pageNumber++;
+            TheMovieDB.getNextSearchPage($scope.pageNumber, query)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextSearch en HC");
+                      })
+        }
+
+        function getNextYearFilter(min,max){
+            $scope.pageNumber++;
+            TheMovieDB.getNextYearFilterPage($scope.pageNumber,min,max)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextYearFilter");
+                      })
+
+        }
 
 
+        function getNextRatingFilter(min,max){
+            $scope.pageNumber++;
+            TheMovieDB.getNextRatingFilterPage($scope.pageNumber, min,max)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextRatingFilter");
+                      })
+
+        }
+
+        function getNextGenreFilter(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextGenreFilterPage($scope.pageNumber,$scope.genreId)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextGenreFilter");
+                      })
+
+        }
+        /* TODO : To be implemented
+
+        function getNextOrderedByNameAsc() {
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderedByNameAscPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+
+        function getNextOrderedByNameDesc(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderedByNameDescPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+
+        function getNextOrderedByReleaseAsc(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderedByReleaseAscPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+
+        function getNextOrderedByReleaseDesc(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderedByReleaseDescPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+        function getNextOrderedByRatingAsc(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderdByRatingAscPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+        function getNextOrderedByRatingDesc(){
+            $scope.pageNumber++;
+            TheMovieDB.getNextOrderedByRatingDescPage($scope.pageNumber)
+                      .then(addNextPage)
+                      .catch( () => {
+                        console.log("Ha habido un error en getNextPopular en HC");
+                      })
+
+        }
+        */
+
+        /* Page Setter */
+
+        function addNextPage(films){
+            console.log("setting next page ");
+            console.log(films);
+            if (films.data.page < films.data.total_pages){
+                console.log("List of films to add ");
+                console.log(films);
+                let filmsReceived = TheMovieDB.parseMovies(films.data.results.splice(0));
+                console.log(filmsReceived);
+                // TODO : Investigar por que concat() no funciona bien en el ng-repeat
+
+                for (var i = 0; i < filmsReceived.length; i++){
+                    $scope.films.push(filmsReceived[i]);
+                }
+            } else {
+            console.log("No hay más elementos");
+            }
+        }
+
+
+
+/* TODO : Refactor => Unused/Unimplemented
+    function getNextFilmPage(){
+            console.log($scope.currentPage);
+            $scope.pageNumber++;
+            if($scope.currentPage < 4 ){
+                console.log("not in search");
+                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,"")
+                          .then(addNextPage)
+                          .catch( () => {
+                            console.log("Error en getNextFilmPage() en HomeController");
+                          });
+            } else {
+                console.log("in search");
+                TheMovieDB.getNextPage($scope.pageNumber,$scope.currentPage,$scope.query)
+                    .then(addNextPage)
+                    .catch( () => {
+                        console.log("Error en getNextFilmPage() en HomeController");
+                    });
+            }
+        }
+
+*/
+
+/*
+        function getNextUnreleasedFilmPage(){
+            $scope.unreleasedPageNumber++;
+            TheMovieDB.getByPageUNreleased($scope.unreleasedPageNumber)
+            .then(addNextPage)
+            .catch( () => {
+                console.log("Error en getNextUnreleasedFilmPage en HomeController");
+            });
+
+        }
+
+
+/* TODO : TO BE IMPLEMENTED */
+        /* Sorting functions */
+
+        // Que ordene la API
+/*
+        function sortByName(mode){
+            mode ? $scope.currentPage = 6 : $scope.currentPage = 7;
+            TheMovieDB.getMoviesSortedByName(mode)
+                      .then(setMoviesSorted)
+                      .catch( () => {
+                        console.log("Ha habido un error en sortByName() en HomeController");
+                      });
+         
+
+        }
+
+        function setMoviesSorted(response){
+            $scope.films = TheMovieDB.parseMovies(response.data.results);
+        }
+
+
+        function sortByReleaseDate(mode){
+             mode ? $scope.currentPage = 8 : $scope.currentPage = 9;
+
+            TheMovieDB.getMoviesSortedByRelease(mode)
+                      .then(setMoviesSorted)
+                      .catch( () => {
+                        console.log("Ha habido un error en sortByReleaseDate");
+                      })
+         
+            }
+        function sortByRating(mode){
+                mode ? $scope.currentPage = 10 : $scope.currentPage = 11;
+
+            TheMovieDB.getMoviesSortedByRating(mode)
+                      .then(setMoviesSorted)
+                      .catch ( () => {
+                        console.log("Ha habido un error en sortByRating() en HomeController");
+                      })
+         
+            }
+*/     
 
         
 
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////////////
 
+        /******************************************************************************/
+        /*                       MODAL VIEW CONTROLLER FUNCTIONS                      */
+        /******************************************************************************/
+
+
+
+        /* Flag toggle functions --------------------------------------- */
         function toggleModalFlag(){
             if ($scope.modalFlag){
                 $scope.modalFlag = false;
@@ -271,23 +523,16 @@
             }
 
         }
+        /*---------------------------------------------------------------*/
 
+
+
+        /* Getters ------------------------------------------------------*/
         function getMovie(id){
             $scope.modalFlag = true;
             console.log("GETTING MOVIE WITH ID " + id);
             $scope.id = id;
             TheMovieDB.getMovie(id).then(setMovie).catch( () => {console.log("Ha Habdio un error en getMovie() en MovieController")});
-        }
-        function setMovie(response){
-            console.log("SETTING MOVIE");
-            console.log(response);
-            $scope.movie = TheMovieDB.parseMovie(response);
-            
-            getRatings($scope.movie.imdb_id);
-            getSimilars($scope.id);
-            getTrailers($scope.id);
-            console.log("movie received in moviecontroller");
-            console.log($scope.movie);
         }
 
         function getRatings(imdbid){
@@ -296,12 +541,6 @@
                 .catch("Ha habido un error en getRatings en MovieController");
         }
 
-        function setRatings(response){ 
-            let ratings = response.data.Ratings;
-            
-            $scope.movie.ratings = formatRatings(ratings);
-
-        }
 
         function getSimilars(id){
             TheMovieDB.getSimilarMovies(id)
@@ -311,13 +550,6 @@
                        })
 
         }
-
-        function setSimilar(response){
-            $scope.movie.similars = TheMovieDB.parseSimilars( response.results);
-
-        }
-
-
         function getTrailers(id){
             console.log("Getting trailers for id " + id);
             TheMovieDB.getVideos(id)
@@ -327,14 +559,38 @@
                       });
 
         }
+        /*--------------------------------------------------------------------------------*/
+        /* Setters -----------------------------------------------------------------------*/
 
 
+        function setMovie(response){
+            console.log("SETTING MOVIE");
+            console.log(response);
+            $scope.movie = TheMovieDB.parseMovie(response);            
+            getRatings($scope.movie.imdb_id);
+            getSimilars($scope.id);
+            getTrailers($scope.id);
+            console.log("movie received in moviecontroller");
+            console.log($scope.movie);
+        }
+
+        function setRatings(response){ 
+            let ratings = response.data.Ratings;            
+            $scope.movie.ratings = formatRatings(ratings);
+        }
+
+
+        function setSimilar(response){
+            $scope.movie.similars = TheMovieDB.parseSimilars( response.results);
+
+        }
 
         function setTrailers(response){
             console.log("Trailers received in MovieController");
-
             console.log(response.data.results);   
            // let trailers = TheMovieDB.parseTrailers(response.data.results);
+           console.log("TRAILER QUE SCEO");
+           console.log(TheMovieDB.parseTrailers(response.data.results));
             $scope.movie.trailer = $sce.trustAsResourceUrl(TheMovieDB.parseTrailers(response.data.results));
             console.log("Trailers after parsing : ");
             console.log($scope.movie.trailer);
@@ -342,59 +598,18 @@
 
         }
 
+        /*----------------------------------------------------------------------------*/
+        /* Formatting functions ------------------------------------------------------*/
+
         function formatRatings(ratings){
             let parsedRatings = ratings;
-
             parsedRatings[0] = parsedRatings[0].Value.replace("/10","");
             parsedRatings[1] = parsedRatings[1].Value;
             parsedRatings[2] = parsedRatings[2].Value.replace("/100","");           
             return parsedRatings;
-
         }
+        /*----------------------------------------------------------------------------*/
 
-        /* Sorting functions */
-
-        function sortByName(movies){
-            $scope.films.sort( (a,b) => {
-                if (a.original_title > b.original_title){
-                    return 1;
-                }
-                if (a.name < b.name){
-                    return -1;
-                }
-                return 0;
-
-            });
-
-        }
-
-
-    function sortByReleaseDate(movies){
-                $scope.films.sort( (a,b) => {
-                    if (a.release_date > b.release_date){
-                        return 1;
-                    }
-                    if (a.name < b.name){
-                        return -1;
-                    }
-                    return 0;
-
-                });
-
-            }
-    function sortByRating(movies){
-                $scope.films.sort( (a,b) => {
-                    if (a.vote_average > b.vote_average){
-                        return 1;
-                    }
-                    if (a.name < b.name){
-                        return -1;
-                    }
-                    return 0;
-
-                });
-
-            }
 
     
     }

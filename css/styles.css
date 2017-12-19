@@ -36,6 +36,7 @@ a[ng-click]{
 }
 
 input[type="text"]{
+    margin-left:19%;
 	margin-top:15px;
     border-radius:6px;
     background-color:#5c6269;
@@ -69,40 +70,44 @@ aside p{
     font-weight:600;
 }
 
+.reset-p{
+    margin-top:0px;
+}
+hr{
+    border: 1px solid #e9ecee;
+}
 
 /*Slider styles */ 
 
 /* Mirar documentacion angularjs slider*/
 
-.custom-slider.rzslider .rz-pointer{
-    background-color:#2883d8;
-}
-.custom-slider.rzslider .rz-pointer:after{
-    background-color:none;
-}
+
+
 
 
 .custom-slider.rzslider .rz-pointer-min {
     width : 37px;
     height : 22px;
-        background-color:#2883d8;
+    background-color:#2883d8;
 }
 
 
 .custom-slider.rzslider .rz-pointer-max {
     width : 37px;
     height : 22px;
-        background-color: #3cb878;
+     background-color: #3cb878;
 
 }
 
 
-//////////////////////
 .buffer{
-	margin:20px;
+    margin-top:10px;
+}
+.similar-buffer{
+    margin-top:30px;
 }
 .filter {
-    margin-top :10px;
+    margin-top: 10px;
 }
 
 .filter img{
@@ -113,6 +118,9 @@ aside p{
     color:red;
 }
 
+.dropdown-menu {
+    font-size : 10px;
+}
 .dropdown a {
     text-decoration : none;
 
@@ -141,7 +149,7 @@ aside p{
     border-radius: 9px  ;
     margin:2px;
     background-color:#fff;
-    font-size:13px;
+    font-size:0.9em;
 
 }
 .genre-btn:hover{
@@ -221,33 +229,37 @@ aside p{
 
 
 }
+.empty-buffer {
+    min-height :322px;
+}
+.empty-buffer p {
+    text-align: center;
+    font-size :1em;
+}
 @keyframes slide {
     from {right:-300px; opacity:0}
     to {right:0; opacity:1}
 }
 
-@keyframes slideout {
-    from {right:0; opacity:1}
-    to {right:-300; opacity:0}
+
+.film-info {
+    min-height:743px;
 }
-
-.modal-out{
-    animation-name: slideout;
-    animation-duration: 0.4s;
-        position :relative;
-    background-color:#fff;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-
-
-}
-
 .film-data{
     position :relative;
     background-color:#fff;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: slide;
-    animation-duration: 0.4s
-    ;
+    animation-duration: 0.2s;
+    margin-right:-15px;
+    color : #c0c4c8;
+    overflow:scroll;
+}
+.film-data h2 {
+    color : #000;
+}
+.gray-text{
+    color : #c0c4c8!important;
 }
 #poster{
     margin-left:10px;
@@ -255,16 +267,56 @@ aside p{
     max-height:750px;
 }
 
-
-.film-data-wrapper{
-    background-color : #fff;
+.movie-header{
+    min-height:103px;
+}
+.movie-header h2{
+    margin-right:10px;
+}
+.movie-header h3{
+    margin-top:25px;
+}
+.duration-margin{
+    margin-left : 55%;
+}
+.movie-info{
+    margin-top:-18px;
+    margin-left:33px;
+    min-height:252px;
+}
+.movie-info p {
+    margin-top:33px;
+    font-weight:400;
+    font-size :15.87px;
+    color :#8e9297;
 }
 
+.movie-info h2{
+    display: inline-block;
+}
+.player{
+    margin-top:-7px;
+        margin-left:33px;
+
+    min-height:409px;
+    min-width:707px;
+}
+.rating-alignment{
+    color : #c0c4c8;
+    margin-left:78%;
+}
+
+.rating-alignment img{
+    margin : 0px 5px;
+}
+.film-data-wrapper{
+    background-color : #fff;
+    margin-left:26px;
+    margin-right:20px;
 }
 
 .film-data h2 {
     margin-bottom : 10px;
-    padding-left:20px;
 }
 
 .film-data h3 {
@@ -275,13 +327,11 @@ aside p{
 }
 
 .film-data p{
-    display: block;
-    font-size: 1em;
+    display: inline-block;
+    font-size: 15.87px;
+    margin-left : -10px;
 }
 
-.similars {
-    overflow-x: scroll;
-}
 
 .genre-tag{
     display:inline-block;
@@ -289,6 +339,8 @@ aside p{
     border-radius:10px;
     padding:5px;
     margin:5px 5px;
+    font-size : 14px;
+    color:#000;
 }
 
 
@@ -306,7 +358,16 @@ aside p{
 
 .close-button{
     cursor:pointer;
-
+    width:auto;
+    height:auto;
 }
-
-
+.similar {
+    font-size : 15.85px;
+    color:#000;
+    ;
+}
+.similar p{
+    margin-top:15px;
+    color:#000;
+    font-size:24.76px;
+}
