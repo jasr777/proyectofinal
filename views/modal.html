@@ -23,7 +23,7 @@
                                             <div class="col-md-5 genre-container">
                                                 <div class="genre-tag text-left" ng-repeat="genre in movie.genres">{{genre.name}}</div>
                                             </div>
-                                            <div class="col-md-offset-9 rating-alignment " ng-if="movie.ratings.length == 3">
+                                            <div class="col-md-offset-9 rating-alignment " ng-if="movie.ratings.length > 0">
                                                 <img src="img/Favorite.png" alt=""> {{movie.ratings[0]}}
                                                 <img src="img/rottentomatoes.png" alt=""> {{movie.ratings[1]}}
                                                 <img src="img/popcorn.png" alt=""> {{movie.ratings[2]}} %
@@ -34,7 +34,7 @@
                                             </div>
                                         </div>
                                 </div>                                           
-                                <div class="player col-md-12">
+                                <div class="player col-md-12" ng-if="movie.trailer != null">
                                     <h2>Trailer</h2>  
                                     <iframe class= "" ng-src="{{movie.trailer}}" width=600 height=342></iframe>
                                 </div>

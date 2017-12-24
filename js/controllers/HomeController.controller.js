@@ -18,15 +18,18 @@
         $scope.currentPage = 0; 
         $scope.totalCount = 0;
         $scope.contentFlag= false;
-        $scope.elements = 20;
+        $scope.elements =0;
         /* Sliders -----------------------------------------*/
+
+        // function getFilmsByYearVoteRange(minYear, maxYear, minvVote, maxVote){
+
         $scope.yearSlider  = {
             min : 1970,
             max : 2018,
             options : {
                 floor :1970,
                 ceil:2018,
-                onEnd : ()=> { getFilmsWithinYearRange($scope.yearSlider.min, $scope.yearSlider.max)}
+                onEnd : ()=> { getFilmsByYearVoteRange($scope.yearSlider.min, $scope.yearSlider.max,$scope.ratingSlider.min,$scope.ratingSlider.max)}
             }
         }
         $scope.ratingSlider = {
@@ -35,7 +38,7 @@
             options : {
                 floor: 0,
                 ceil : 10,
-                onEnd : () => {getFilmsWithinVoteRange($scope.ratingSlider.min, $scope.ratingSlider.max)}
+                onEnd : () => {getFilmsByYearVoteRange($scope.yearSlider.min, $scope.yearSlider.max,$scope.ratingSlider.min,$scope.ratingSlider.max)}
             }
         }
         /* ---------------------------------------------------*/
@@ -142,6 +145,19 @@
         }
         /* Filter getters*/
 
+
+        function getFilmsByYearVoteRange(minYear, maxYear, minvVote, maxVote){
+            $scope.searchQuery="";
+            $scope.pageNumber = 1;
+            $scope.currentPage = 3;
+
+            TheMovieDB.getMoviesByYearVote(minYear, maxYear, minvVote, maxVote)
+                      .then(setFilteredFilms)
+                      .catch(() => {
+                        "Ha habido un error en getFilmsByYearVoteRange"
+                      });
+        }
+
         function getFilmsWithinYearRange(min,max){
             $scope.searchQuery="";
             $scope.pageNumber = 1;
@@ -193,7 +209,7 @@
         /* Set functions ----------------------------------------------------*/
 
         function setPopularFilms(films){
-            $scope.totalCount = films.data.total_results;
+            $scope.totalCount = films.data.total_results.toLocaleString();
             let filmsReceived = films.data.results.splice(0);
             console.log("Films.results received in HomeController");
             console.log(filmsReceived);
@@ -207,7 +223,7 @@
 
 
         function setUnreleasedFilms(films){
-            $scope.totalCount = films.data.total_results;
+            $scope.totalCount = films.data.total_results.toLocaleString();
 
             let filmsReceived = films.data.results.splice(0);
             console.log("Unreleased films received before parsing");
@@ -221,10 +237,11 @@
 
         function setMovieResults(films){
 
-            $scope.totalCount = films.data.total_results;
+            $scope.totalCount = films.data.total_results.toLocaleString();
             let filmsReceived = films.data.results.splice(0);            
             $scope.films = TheMovieDB.parseMovies(filmsReceived);
             $scope.elements = $scope.films.length;
+
             console.log("ELEMENTS VALUE " + $scope.elements);
         }  
 
@@ -233,7 +250,7 @@
 
         function setFilteredFilms(response){
 
-            $scope.totalCount = response.data.total_results;
+            $scope.totalCount = response.data.total_results.toLocaleString();
             $scope.films= TheMovieDB.parseMovies(response.data.results);
             $scope.elements = $scope.films.length;
             console.log("ELEMENTS VALUE " + $scope.elements);
@@ -292,7 +309,7 @@
 
 
 
-        function setPageMode(currentPage,query,min,max,genreId){
+        function setPageMode(currentPage,query,minYear,maxYear,minVote,maxVote,genreId){
             console.log("setting page mode");
             switch (currentPage){
                 // case x : return 0 nextPage
@@ -302,10 +319,10 @@
                          break;
                 case 2 : return getNextSearch(query);
                          break;
-                case 3 : return getNextYearFilter(min,max);
+                case 3 : return getNextYearVoteFilter(minYear,maxYear,minVote,maxVote);
                          break;
-                case 4 : return getNextRatingFilter(min,max);
-                         break;
+                /*case 4 : return getNextRatingFilter(min,max);
+                         break;*/
                 case 5 : return getNextGenreFilter();
                          break;
                 /* TODO: Not Implemented 
@@ -357,9 +374,9 @@
                       })
         }
 
-        function getNextYearFilter(min,max){
+        function getNextYearVoteFilter(minYear,maxYear,minVote,maxVote){
             $scope.pageNumber++;
-            TheMovieDB.getNextYearFilterPage($scope.pageNumber,min,max)
+            TheMovieDB.getNextYearVoteFilter($scope.pageNumber,minYear,maxYear,minVote,maxVote)
                       .then(addNextPage)
                       .catch( () => {
                         console.log("Ha habido un error en getNextYearFilter");
@@ -649,9 +666,13 @@
            // let trailers = TheMovieDB.parseTrailers(response.data.results);
            console.log("TRAILER QUE SCEO");
            console.log(TheMovieDB.parseTrailers(response.data.results));
-            $scope.movie.trailer = $sce.trustAsResourceUrl(TheMovieDB.parseTrailers(response.data.results));
-            console.log("Trailers after parsing : ");
-            console.log($scope.movie.trailer);
+            if (response.data.results.length > 0 ){
+                $scope.movie.trailer = $sce.trustAsResourceUrl(TheMovieDB.parseTrailers(response.data.results));
+                console.log("Trailers after parsing : ");
+                console.log($scope.movie.trailer);
+            } else {
+                return;
+            }
             //$scope.movie.trailers = TheMovieDB.parseTrailers()
 
         }
@@ -660,10 +681,14 @@
         /* Formatting functions ------------------------------------------------------*/
 
         function formatRatings(ratings){
-            let parsedRatings = ratings;
-            parsedRatings[0] = parsedRatings[0].Value.replace("/10","");
-            parsedRatings[1] = parsedRatings[1].Value;
-            parsedRatings[2] = parsedRatings[2].Value.replace("/100","");           
+            console.log("FORMATTING RATINGS");
+            let parsedRatings = [];
+            console.log(ratings);
+            if (ratings.length > 0 ){
+                parsedRatings[0] = ratings[0].Value.replace("/10","");
+                parsedRatings[1] = ratings[1].Value;
+                parsedRatings[2] = ratings[2].Value.replace("/100","");           
+            } 
             return parsedRatings;
         }
         /*----------------------------------------------------------------------------*/

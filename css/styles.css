@@ -85,9 +85,13 @@ hr{
 .min-buffer{
     margin-left:14px;
 }
+
+
+.reset-button {
+    margin-top : 40px;
+}
 /*Slider styles */ 
 
-/* Mirar documentacion angularjs slider*/
 
 
 

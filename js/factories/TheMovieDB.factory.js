@@ -65,7 +65,10 @@
             getNextSearchPage : getNextSearchPage,
             getNextYearFilterPage : getNextYearFilterPage,
             getNextRatingFilterPage : getNextRatingFilterPage,
-            getNextGenreFilterPage : getNextGenreFilterPage
+            getNextGenreFilterPage : getNextGenreFilterPage,
+            getMoviesByYearVote : getMoviesByYearVote,
+            getNextYearVoteFilter : getNextYearVoteFilter
+
             // getByPagePopular : getByPagePopular,
             // getNextPage : getNextPage,
 
@@ -173,6 +176,15 @@
                   });
         }
 
+        function getNextYearVoteFilter(page, minYear,maxYear,minVote,maxVote){
+          return $http.get(discoverMovieDBUrl + greaterThanDate + minYear + lesserThanDate + 
+                          maxYear +greaterThanVote +minVote +lesserThanVote + maxVote + pageStr + page)
+                 .then(setMovies)
+                 .catch( () => {
+                  console.log("Ha habido un error en getMoviesByYearVote en TMDBFactory");
+                 })
+        }
+
         function getNextYearFilterPage(page,min,max){
 
           console.log(discoverMovieDBUrl + greaterThanDate + min + lesserThanDate + max+pageStr+page);
@@ -210,6 +222,13 @@
                   })
         }
 
+        function getMoviesByYearVote(minYear,maxYear,minVote,maxVote){
+          return $http.get(discoverMovieDBUrl + greaterThanDate + minYear + lesserThanDate + maxYear +greaterThanVote +minVote +lesserThanVote + maxVote)
+                 .then(setMovies)
+                 .catch( () => {
+                  console.log("Ha habido un error en getMoviesByYearVote en TMDBFactory");
+                 })
+        }
 
 
        function getMoviesWithinYearRange(min,max){
