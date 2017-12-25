@@ -53,9 +53,7 @@
             parseSimilars : parseSimilars,
             getVideos : getVideos ,
             parseTrailers : parseTrailers,
-            getMoviesWithinYearRange : getMoviesWithinYearRange,
-            getMoviesWithinVoteRange : getMoviesWithinVoteRange,
-            getGenreList : getGenreList,
+            getGenreList : getGenreList,            
             getMoviesbyGenreId : getMoviesbyGenreId,
             getMoviesSortedByName : getMoviesSortedByName,
             getMoviesSortedByRelease : getMoviesSortedByRelease,
@@ -67,11 +65,10 @@
             getNextRatingFilterPage : getNextRatingFilterPage,
             getNextGenreFilterPage : getNextGenreFilterPage,
             getMoviesByYearVote : getMoviesByYearVote,
-            getNextYearVoteFilter : getNextYearVoteFilter
-
-            // getByPagePopular : getByPagePopular,
-            // getNextPage : getNextPage,
-
+            getNextYearVoteFilter : getNextYearVoteFilter,
+            getNextMoviesSortedByName : getNextMoviesSortedByName,
+            getNextMoviesSortedByRelease  : getNextMoviesSortedByRelease,
+            getNextMoviesSortedByRating : getNextMoviesSortedByRating,
 
         };
         return service;
@@ -112,13 +109,11 @@
                 .catch( () => {
                   console.log("Error en getPopularMovies() en TMDBFactory");
                 });
-        }
+        } 
 
 
 
-        // url : movieurl/ + id + /similar + ?apikey...
         function getSimilarMovies(id){
-          console.log("fetching movies similar to movie id " +id);
           return $http.get(movieMovieDbUrl+id+"/similar"+api_key)
                   .then(setMovie)
                   .catch( () => {
@@ -129,8 +124,7 @@
 
 
         function getUnreleasedMovies(){
-          console.log("Getting upcoming");
-          
+         
           return $http.get(discoverMovieDBUrl+greaterThanDate+currentDate)
                   .then(setMovies)
                   .catch( () => {
@@ -139,7 +133,6 @@
                  
         }
         function searchMovies(query){
-          console.log("Search movies");
           return $http.get(searchMovieDBUrl+query)
                   .then(setMovies)
                   .catch( () => {
@@ -150,7 +143,6 @@
         
 
         function getNextPopularPage(page){
-          console.log("getting popular films in page "+page);
           return $http.get(discoverMovieDBUrl + popular + pageStr + page)
                  .then(setMovies)
                   .catch( () => {
@@ -187,7 +179,6 @@
 
         function getNextYearFilterPage(page,min,max){
 
-          console.log(discoverMovieDBUrl + greaterThanDate + min + lesserThanDate + max+pageStr+page);
           return $http.get(discoverMovieDBUrl + greaterThanDate + min + lesserThanDate + max+pageStr+page)
                 .then(setMovies)
                 .catch(() => {
@@ -213,6 +204,73 @@
                     console.log("Error en getMoviesByGenreId en TMDBFactory");
                    })
         }
+        function getNextMoviesSortedByName(page,mode,yearMin,yearMax,voteMin,voteMax){
+          if ( mode ) {
+            return $http.get( discoverMovieDBUrl+sortByTitleAsc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
+
+                        });
+          } else {
+
+            return $http.get( discoverMovieDBUrl+sortByTitleDesc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
+
+                        });
+          }
+        }
+
+
+        function getNextMoviesSortedByRelease(page,mode,yearMin,yearMax,voteMin,voteMax){
+          if ( mode ) {
+            return $http.get( discoverMovieDBUrl+sortByReleaseAsc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByRelease en TMDBFactory");
+
+                        });
+          } else {
+
+            return $http.get( discoverMovieDBUrl+sortByReleaseDesc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
+
+                        });
+          }
+
+        }
+
+
+        function getNextMoviesSortedByRating(page,mode,yearMin,yearMax,voteMin,voteMax){
+          if ( mode ) {
+            return $http.get( discoverMovieDBUrl+sortByRatingAsc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByRelease en TMDBFactory");
+
+                        });
+          } else {
+
+            return $http.get( discoverMovieDBUrl+sortByRatingDesc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                              + greaterThanVote + voteMin + lesserThanVote +voteMax + pageStr+ page)
+                        .then(setMovies)
+                        .catch( () => {
+                          console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
+
+                        });
+          }
+
+        }   
+
 
         function getVideos(id){
           return $http.get(movieMovieDbUrl+id+"/videos?"+api_key)
@@ -222,35 +280,19 @@
                   })
         }
 
+       
+
+
         function getMoviesByYearVote(minYear,maxYear,minVote,maxVote){
-          return $http.get(discoverMovieDBUrl + greaterThanDate + minYear + lesserThanDate + maxYear +greaterThanVote +minVote +lesserThanVote + maxVote)
+          return $http.get(discoverMovieDBUrl + greaterThanDate + minYear + lesserThanDate + maxYear 
+                +greaterThanVote +minVote +lesserThanVote + maxVote)
                  .then(setMovies)
                  .catch( () => {
                   console.log("Ha habido un error en getMoviesByYearVote en TMDBFactory");
                  })
         }
 
-
-       function getMoviesWithinYearRange(min,max){
-          console.log("Filtering movies from" + min + " " + max);
-          return $http.get(discoverMovieDBUrl + greaterThanDate + min + lesserThanDate + max)
-                .then(setFilter)
-                .catch( () => {
-                  console.log("Error en getMoviesWithinYearRange en TMDB Factory");
-                })
-        }
-
-        function getMoviesWithinVoteRange(min,max){
-          console.log("Filtering movies with votes between " + min + " " + max);
-          return $http.get(discoverMovieDBUrl + greaterThanVote + min + lesserThanVote + max)
-                .then(setFilter)
-                .catch(() => {
-                  console.log("Error en getMoviesWithinVoteRange en TMDB Factory");
-                })
-        }
-
         function getMoviesbyGenreId(id){
-          console.log("Filtering movies with id : " + id);
           return $http.get(discoverMovieDBUrl+genresStr+id)
                  .then(setFilter)
                  .catch ( () => {
@@ -259,17 +301,20 @@
         }
 
 
+        /* FILTER FUNCTIONS */
+
+
+
         /* -------------------------------------------------------------------------*/
 
         /* Set functions -----------------------------------------------------------*/
         
         function setConfig(response){
-          console.log("Configuration object received in TheMovieDB factory");
           config = response.data.images;
-          console.log(config);
         }
 
         function setGenreList(response){
+
           return response;
         }
 
@@ -279,9 +324,6 @@
         }
 
         function setMovies(response){          
-          console.log("received response in TMDBFactory");
-          //totalCount = films.data.total_results;
-          console.log(response);
           return response;
         }
 
@@ -295,28 +337,18 @@
         /* Parse functions  -------------------------------------------------------*/
         function parseTrailers(trailers){
 
-          console.log("parsing trailers");
-          console.log(trailers);
           let auxTrailers = trailers
-          console.log(auxTrailers);
           let parsedTrailers = [];
           for (var i = 0; i < auxTrailers.length;i++){
-            console.log("en el for parsiando");
-            console.log(auxTrailers[i].type);
             if(auxTrailers[i].type="Trailer"){
-              console.log("encontre trailer");
-              let trailer = Object.assign({},auxTrailers[i]);
-              
-              return youtubeEmbedUrl + auxTrailers[i].key;
-              
+              let trailer = Object.assign({},auxTrailers[i]);              
+              return youtubeEmbedUrl + auxTrailers[i].key;              
             } 
           }
           return parsedTrailers;
         }
 
         function parseSimilars(similars){
-          console.log("parse similars");
-          console.log(similars);
           let parsedSimilars = [];       
           for (var i = 0; i < similars.length; i++){
             let thumbnail = Object.assign({},similars[i]);
@@ -325,8 +357,6 @@
             parsedSimilars.push(thumbnail);
             thumbnail = {};
           }
-          console.log("similars parsed : ");
-          console.log(parsedSimilars);
           return parsedSimilars;
 
         }
@@ -341,7 +371,6 @@
                 parsedMovie.fallback_poster = "img/generic-film.jpg";
                 parsedMovie.regular_poster =config.base_url + config.poster_sizes[3] + movies[i].poster_path;
                 parsedMovie.poster = config.base_url + config.poster_sizes[4] + movies[i].poster_path;
-                console.log(parsedMovie);
                 parsedMovies.push(parsedMovie);
             }
           return parsedMovies;
@@ -371,10 +400,11 @@
 
 
 
-        function getMoviesSortedByName(mode){
+        function getMoviesSortedByName(mode, yearMin,yearMax,voteMin,voteMax){
           // mode : true => ascendente , false => descendente
           if ( mode ) {
-          return $http.get( discoverMovieDBUrl+sortByTitleAsc)
+          return $http.get( discoverMovieDBUrl+sortByTitleAsc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                       .then(setMovies)
                       .catch( () => {
                         console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
@@ -382,7 +412,8 @@
                       });
           } else {
 
-          return $http.get( discoverMovieDBUrl+sortByTitleDesc)
+          return $http.get( discoverMovieDBUrl+sortByTitleDesc+greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                       .then(setMovies)
                       .catch( () => {
                         console.log("Ha habido un error en getMoviesSortedByName en TMDBFactory");
@@ -393,18 +424,18 @@
         }
 
 
-        
-        function getMoviesSortedByRelease(mode){
-          console.log(mode);
+        function getMoviesSortedByRelease(mode, yearMin,yearMax,voteMin,voteMax){
           if ( mode ){
-            return $http.get( discoverMovieDBUrl+sortByReleaseAsc)
+            return $http.get( discoverMovieDBUrl+sortByReleaseAsc +greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                                   .then(setMovies)
                                   .catch( () => {
                                     console.log("Ha habido un error en getMoviesSortedBYRelease en TMDBFactory");
 
                                   });
           } else {
-            return $http.get( discoverMovieDBUrl+sortByReleaseDesc)
+            return $http.get( discoverMovieDBUrl+sortByReleaseDesc +greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                                   .then(setMovies)
                                   .catch( () => {
                                     console.log("Ha habido un error en getMoviesSortedBYRelease en TMDBFactory");
@@ -416,15 +447,17 @@
 
 
         /* Se puede arreglar  como lo hago con el slider de valoracion*/
-        function getMoviesSortedByRating(mode){
+        function getMoviesSortedByRating(mode, yearMin,yearMax,voteMin,voteMax){
           if ( mode ){
-            return $http.get(discoverMovieDBUrl+sortByRatingAsc)
+            return $http.get(discoverMovieDBUrl+sortByRatingAsc +greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                         .then(setMovies)
                         .catch ( () => {
                           console.log("Ha habido un error en getMoviesSortedByRating en TMDBFactory");
                         });
         } else {
-            return $http.get(discoverMovieDBUrl+sortByRatingDesc)
+            return $http.get(discoverMovieDBUrl+sortByRatingDesc +greaterThanDate+ yearMin + lesserThanDate + yearMax
+                            + greaterThanVote + voteMin + lesserThanVote +voteMax)
                                   .then(setMovies)
                                   .catch ( () => {
                                     console.log("Ha habido un error en getMoviesSortedByRating en TMDBFactory");
@@ -443,8 +476,6 @@
           time.setMinutes(minutes);
           let duration = time.toISOString().substring(12,16);
           return duration.replace(":", "h ") +"m";
-
-
         }
 
     }

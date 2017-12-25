@@ -14,10 +14,6 @@
             templateUrl : '/views/home.html'
         })
 
-        .when("/movie/:id" , {
-        	controller:'MovieController',
-        	templateUrl :'/views/modal.html'
-        })
     
          
     }

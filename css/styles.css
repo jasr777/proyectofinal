@@ -81,7 +81,9 @@ hr{
     border: 1px solid #e9ecee;
 }
 
-
+.logo {
+    cursor : pointer;
+}
 .min-buffer{
     margin-left:14px;
 }
@@ -89,6 +91,10 @@ hr{
 
 .reset-button {
     margin-top : 40px;
+}
+
+.dropdown-alignment{
+    margin-left : 89%;
 }
 /*Slider styles */ 
 
@@ -152,7 +158,6 @@ hr{
     color:red;
     text-decoration :underline;
  }
-
 .genre-btn{
     width:115px;
     height :33px;
