@@ -381,7 +381,7 @@
           for (var i = 0; i < similars.length; i++){
             let thumbnail = Object.assign({},similars[i]);
 
-            thumbnail.url  = config.base_url + config.logo_sizes[2] +similars[i].poster_path;
+            thumbnail.url  = config.base_url.replace("http","https") + config.logo_sizes[2] +similars[i].poster_path;
             parsedSimilars.push(thumbnail);
             thumbnail = {};
           }
@@ -397,8 +397,8 @@
                 parsedMovie = Object.assign({}, movies[i]);
 
                 parsedMovie.fallback_poster = "img/generic-film.jpg";
-                parsedMovie.regular_poster =config.base_url + config.poster_sizes[3] + movies[i].poster_path;
-                parsedMovie.poster = config.base_url + config.poster_sizes[4] + movies[i].poster_path;
+                parsedMovie.regular_poster =config.base_url.replace("http","https") + config.poster_sizes[3] + movies[i].poster_path;
+                parsedMovie.poster = config.base_url.replace("http","https") + config.poster_sizes[4] + movies[i].poster_path;
                 parsedMovies.push(parsedMovie);
             }
           return parsedMovies;
@@ -412,7 +412,7 @@
 
 
           parsedMovie.year = new Date(movie.release_date).getFullYear();
-          parsedMovie.full_poster = config.base_url + config.poster_sizes[4] + movie.poster_path;
+          parsedMovie.full_poster = config.base_url.replace("http","https") + config.poster_sizes[4] + movie.poster_path;
           
             // FUTURE: investiga el .map 
           for (var i = 0; i < movie.genres.length;i++){            
