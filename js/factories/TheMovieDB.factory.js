@@ -33,7 +33,7 @@
         var greaterThanVote ="&vote_average.gte=";
         var lesserThanVote ="&vote_average.lte=";
         var genresStr="&with_genres=";
-        var youtubeEmbedUrl = "http://www.youtube.com/embed/";
+        var youtubeEmbedUrl = "https://www.youtube.com/embed/";
         /*--------------------------------------------------------------*/
         var config = {};
         var currentDate = new Date().toISOString().substring(0,10);

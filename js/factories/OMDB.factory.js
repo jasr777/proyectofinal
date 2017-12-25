@@ -8,7 +8,7 @@
     function OMDB($http) {
 
     	
-    	var getURL = "http://www.omdbapi.com/?apikey=1da6c58c&i=";
+    	var getURL = "https://www.omdbapi.com/?apikey=1da6c58c&i=";
     	var service = {
         	getMovieRating : getMovieRating,
         };
