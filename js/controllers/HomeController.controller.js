@@ -611,8 +611,7 @@
                         }
 
                         if(auxRatings[i].Source == "Rotten Tomatoes"){
-                            parsedRatings[1] = auxRatings[i].value;
-                         
+                            parsedRatings[1] = auxRatings[i].Value;
 
                         }
 
