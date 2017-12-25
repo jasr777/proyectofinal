@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row">
 
-               <img ng-click="getPopularFilms()" src="img/logo.svg" alt="logo aqui" class="col-md-2 logo">
+               <img ng-click="getPopularFilms()" src="img/Logo.svg" alt="logo aqui" class="col-md-2 logo">
                 <ul> 
                     <li><a ng-click="getPopularFilms()" class="col-md-1 col-md-offset-1">Descubrir</a></li>
                     <li><a ng-click="getUnreleasedFilms()" class="col-md-1 col-md-offset-1">Proximamente</a ></li>
@@ -37,14 +37,13 @@
                          </rzslider>
                     </div>
 
-                    
-
                 </div>
                 <div>
                     <p>Géneros</p>
+ 
 
                     <div>
-                        <button class="genre-btn" ng-click="getFilmsByGenreId(genre.id)" ng-repeat="genre in genres">{{genre.name}}</button>
+                        <button class="genre-btn" ng-click="getFilmsByFilter(yearSlider.min, yearSlider.max, ratingSlider.min,ratingSlider.max,genre.id)" ng-repeat="genre in genres">{{genre.name}}</button>
                     </div>
 
                 </div>
@@ -55,6 +54,7 @@
             </aside>
                     
 
+            <!-- Main para discover -->
 
             <main class="col-md-9" ng-if="filterToggle == true">
                     <div class="row buffer">
@@ -116,25 +116,12 @@
                         </div>
                     </div>
 
-                    <!-- Upcoming -->
-
-                    <div ng-if="currentPage == 1 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(1,'',0,0,0,0,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
+                  
                 
-                    <!-- Search -->
-                    <div ng-if="currentPage == 2 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(2,searchQuery,0,0,0,0,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
+              
                     <!-- Filter by Year  / Vote -->      
 
-                    <div ng-if="currentPage == 3 && !contentFlag && elements >= 20" class="row">
+                    <div ng-if=" currentPage == 5 && !contentFlag && elements >= 20" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(3,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
@@ -150,13 +137,13 @@
                 -->
 
                 <!-- Filter by genre -->
-                    <div ng-if="currentPage == 5 && !contentFlag && elements >= 20" class="row">
+<!--                     <div ng-if="currentPage == 5 && !contentFlag && elements >= 20" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(5,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>
-                    <!-- Sorted by name asc -->
+ -->                    <!-- Sorted by name asc -->
 
                     <div ng-if="currentPage == 6 && !contentFlag && elements >= 20" class="row">
                         <div class="col-md-12" >
@@ -205,7 +192,7 @@
 
         </main>
 
-
+            <!-- Main para upcoming y busqueda -->
             <main class="col-md-12" ng-if="filterToggle == false">
                     <div class="row buffer">
                         <p class="min-buffer col-md-4">{{totalCount}} peliculas encontradas</p>
@@ -241,13 +228,6 @@
 
 
                     <!-- CARGAR MAS -->
-                    <!-- Discover -->
-                    <div ng-if="currentPage == 0 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(0,'',0,0,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
 
                     <!-- Upcoming -->
 
@@ -262,75 +242,6 @@
                     <div ng-if="currentPage == 2 && !contentFlag && elements >= 20" class="row">
                         <div class="col-md-12" >
                             <a class="col-md-offset-6" ng-click="setPageMode(2,searchQuery,0,0,0,0,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                    <!-- Filter by Year  / Vote -->      
-
-                    <div ng-if="currentPage == 3 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(3,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>  
-                    <!--    
-                    <div ng-if="currentPage == 4 && !contentFlag" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(4,'',ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                -->
-
-                <!-- Filter by genre -->
-                    <div ng-if="currentPage == 5 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(5,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                    <!-- Sorted by name asc -->
-
-                    <div ng-if="currentPage == 6 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(6,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                                    <!-- Sorted by name dec -->
-
-                    <div ng-if="currentPage == 7 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(7,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                                    <!-- Sorted by nrelease asc -->
-
-                    <div ng-if="currentPage == 8 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(8,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                    <!--sorted by release desc-->
-                    <div ng-if="currentPage == 9 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(9,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                    <!-- sorted by vote asc-->
-                    <div ng-if="currentPage == 10 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(10,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
-                            <div class="buffer"></div>
-                        </div>
-                    </div>
-                    <!-- sorted by vote desc-->
-                    <div ng-if="currentPage == 11 && !contentFlag && elements >= 20" class="row">
-                        <div class="col-md-12" >
-                            <a class="col-md-offset-6" ng-click="setPageMode(11,'',yearSlider.min,yearSlider.max,ratingSlider.min,ratingSlider.max,0)">Cargar más...</a>
                             <div class="buffer"></div>
                         </div>
                     </div>

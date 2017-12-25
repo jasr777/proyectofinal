@@ -66,9 +66,19 @@ aside{
     position:fixed;
 }
 main {
-        border-left: 1px solid #e9ecee;
+    border-left: 1px solid #e9ecee;
+    animation-name: slideup;
+    animation-duration: 0.2s;
 
 }
+
+@keyframes slideup {
+    from {bottom:-300px; opacity:0}
+    to {bottom:0; opacity:1}
+}
+
+
+
 aside p{
     margin : 20px 0px;
     font-weight:600;
